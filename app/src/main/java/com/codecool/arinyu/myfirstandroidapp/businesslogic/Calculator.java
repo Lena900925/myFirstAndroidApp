@@ -9,6 +9,7 @@ public class Calculator {
     private static LinkedHashMap<String, Integer> fixValues = new LinkedHashMap<>();
 
     public Calculator() {
+        setFixValues();
     }
 
     private static void setFixValues() {
@@ -19,17 +20,14 @@ public class Calculator {
         fixValues.put("Tomi", 30000);
     }
 
-    private static void calculateResults(Integer bill) {
+    public LinkedHashMap calculateResults(Integer bill) {
         int expensesPerHead = (bill - rent) / fixValues.size();
         for (String name : fixValues.keySet()) {
             fixValues.put(name, fixValues.get(name) + expensesPerHead);
         }
-    }
-
-
-    public static void main(String[] args) {
-        setFixValues();
-        calculateResults(243907);
         System.out.println(fixValues);
+        return fixValues;
     }
-}
+
+
+    }

@@ -21,4 +21,9 @@
     <string name="button_login">Login</string>
 
     <string name="action_settings">Settings</string>
+    <string name="Lena">Lena</string>
+    <string name="welcome_page">the Bill Splitter App</string>
+    <string name="how_much">How much was the rent?</string>
+    <string name="let_me_know">Let me know</string>
+    <string name="button_calculate">Calculate</string>
 </resources>

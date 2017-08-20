@@ -1,5 +1,6 @@
 package com.codecool.arinyu.myfirstandroidapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,9 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private EditText mRentUserInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +29,31 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mRentUserInput = (EditText) findViewById(R.id.editText);
+        Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
+        btnCalculate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String costs = mRentUserInput.getText().toString();
+                if (costs.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please fill in the required field!", Toast.LENGTH_LONG).show();
+                } else {
+                    Calculator calculator = new Calculator();
+                    Integer bill = Integer.parseInt(costs);
+                    System.out.println(calculator.calculateResults(bill));
+                    Toast.makeText(MainActivity.this, calculator.calculateResults(bill).toString(), Toast.LENGTH_LONG).show();
+
+//                    Intent MainIntent = new Intent(MainActivity.this, Calculator.class);
+//                    startActivity(MainIntent);
+                }
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Email has been sent to the roommates ;)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
