@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(MainIntent);
                     Toast.makeText(LoginActivity.this, "You signed in successfully", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(LoginActivity.this, "Sorry, username or Password is incorrect", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Username or Password is incorrect", Toast.LENGTH_LONG).show();
                 }
             }
         });
