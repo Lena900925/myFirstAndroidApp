@@ -1,4 +1,4 @@
-package com.example.arinyu.myfirstandroidapp;
+package com.codecool.arinyu.myfirstandroidapp;
 
 import org.junit.Test;
 

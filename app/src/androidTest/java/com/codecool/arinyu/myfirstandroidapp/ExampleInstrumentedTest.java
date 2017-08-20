@@ -1,4 +1,4 @@
-package com.example.arinyu.myfirstandroidapp;
+package com.codecool.arinyu.myfirstandroidapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

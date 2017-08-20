@@ -1,4 +1,4 @@
-package com.example.arinyu.myfirstandroidapp;
+package com.codecool.arinyu.myfirstandroidapp;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String UserName = mUserName.getText().toString();
                 String Pwd = mPasswordView.getText().toString();
-                if (UserName.equalsIgnoreCase("Lena") && Pwd.equals("Lena@123")) {
+                if (UserName.equalsIgnoreCase("lena") && Pwd.equals("lena")) {
                     Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(MainIntent);
                     Toast.makeText(LoginActivity.this, "You signed in successfully", Toast.LENGTH_LONG).show();
@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Username or Password is incorrect", Toast.LENGTH_LONG).show();
                 }
             }
-        });
 
+        });
     }
 }
