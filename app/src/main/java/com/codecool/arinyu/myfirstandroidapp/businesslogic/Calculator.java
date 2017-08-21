@@ -20,14 +20,23 @@ public class Calculator {
         fixValues.put("Tomi", 30000);
     }
 
-    public LinkedHashMap calculateResults(Integer bill) {
+    public String calculateResults(Integer bill) {
         int expensesPerHead = (bill - rent) / fixValues.size();
         for (String name : fixValues.keySet()) {
             fixValues.put(name, fixValues.get(name) + expensesPerHead);
         }
-        System.out.println(fixValues);
-        return fixValues;
+        return prettify(fixValues);
     }
 
+    private static String prettify(LinkedHashMap hashmapOfResult) {
+        String prettifiedString = "";
+        for (Object name : hashmapOfResult.keySet()) {
+            String key = name.toString();
+            String value = hashmapOfResult.get(name).toString();
+            prettifiedString += key + ": " + value + " HUF" + "\n";
+        }
 
+        return prettifiedString;
     }
+
+}

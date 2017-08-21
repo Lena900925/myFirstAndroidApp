@@ -19,6 +19,11 @@ import android.widget.Toast;
 
 import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText mRentUserInput;
@@ -38,13 +43,10 @@ public class MainActivity extends AppCompatActivity
                 if (costs.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please fill in the required field!", Toast.LENGTH_LONG).show();
                 } else {
-                    Calculator calculator = new Calculator();
                     Integer bill = Integer.parseInt(costs);
-                    System.out.println(calculator.calculateResults(bill));
-                    Toast.makeText(MainActivity.this, calculator.calculateResults(bill).toString(), Toast.LENGTH_LONG).show();
-
-//                    Intent MainIntent = new Intent(MainActivity.this, Calculator.class);
-//                    startActivity(MainIntent);
+                    Calculator calculator = new Calculator();
+                    String result = calculator.calculateResults(bill);
+                    Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -124,4 +126,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
