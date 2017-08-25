@@ -26,4 +26,5 @@
     <string name="how_much">How much was the rent?</string>
     <string name="let_me_know">Let me know</string>
     <string name="button_calculate">Calculate</string>
+    <string name="login_menu_item">Login</string>
 </resources>

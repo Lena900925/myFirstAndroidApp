@@ -1,5 +1,7 @@
 package com.codecool.arinyu.myfirstandroidapp.businesslogic;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Set;
@@ -20,12 +22,16 @@ public class Calculator {
         fixValues.put("Tomi", 30000);
     }
 
-    public String calculateResults(Integer bill) {
-        int expensesPerHead = (bill - rent) / fixValues.size();
+    public String calculateResults(double billToBePaid) {
+        double expensesPerHead = (billToBePaid - rent) / fixValues.size();
         for (String name : fixValues.keySet()) {
-            fixValues.put(name, fixValues.get(name) + expensesPerHead);
+            fixValues.put(name, fixValues.get(name) + roundNumber(expensesPerHead));
         }
         return prettify(fixValues);
+    }
+
+    private static int roundNumber(double number) {
+        return new BigDecimal(number).setScale(0, RoundingMode.UP).intValue();
     }
 
     private static String prettify(LinkedHashMap hashmapOfResult) {
@@ -38,5 +44,10 @@ public class Calculator {
 
         return prettifiedString;
     }
+
+//    public static void main(String[] args) {
+//        Calculator calculator = new Calculator();
+//        System.out.println(calculator.calculateResults(243908));
+//    }
 
 }
