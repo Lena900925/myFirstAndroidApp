@@ -1,6 +1,5 @@
 package com.codecool.arinyu.myfirstandroidapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,12 +19,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
+import com.facebook.FacebookSdk;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Objects;
+import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
