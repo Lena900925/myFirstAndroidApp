@@ -30,12 +30,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/editInput"
             android:layout_width="220dp"
             android:layout_height="64dp"
             android:hint="@string/let_me_know"
             android:inputType="number"
             android:maxLines="1"
+            android:imeOptions="actionDone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_editor_absoluteY="89dp" />
