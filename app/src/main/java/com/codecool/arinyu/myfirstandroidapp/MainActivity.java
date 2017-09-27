@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
+import com.codecool.arinyu.myfirstandroidapp.TakingPictureActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -127,6 +128,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            Intent intent = new Intent(this, TakingPictureActivity.class);
+            startActivity(intent);
+
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 

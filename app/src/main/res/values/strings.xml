@@ -28,4 +28,6 @@
     <string name="button_calculate">Calculate</string>
     <string name="login_menu_item">Login</string>
     <string name="facebook_app_id">249280585594134</string>
+    <string name="takePicture">Take a photo</string>
+    <string name="title_activity_taking_picture">TakingPictureActivity</string>
 </resources>
