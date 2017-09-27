@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Havi lakbér");
-                intent.putExtra(Intent.EXTRA_TEXT, "Szia Lena! \n\n Kérlek utald át nekem a havi lakbért + rezsit erre a számlaszámra: \n\n 11773449-01196337 \n OTP \n Rinyu Annemarie \n\n Köszi szépen előre is! \n\n Üdv, \n Lena");
+                intent.putExtra(Intent.EXTRA_TEXT, "Szia Matyi! \n\n Kérlek utald át nekem a havi lakbért + rezsit erre a számlaszámra: \n\n 11773449-01196337 \n OTP \n Rinyu Annemarie \n\n Köszi szépen előre is! \n\n Üdv, \n Lena");
                 intent.setData(Uri.parse("mailto:rinyu.annemarie.hd@gmail.com")); // or just "mailto:" for blank
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
                 startActivity(intent);
