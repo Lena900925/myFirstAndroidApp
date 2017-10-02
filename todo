@@ -1,0 +1,20 @@
+### My specification ~ TODO List
+
+- [ ] Take a photo of the bill
+    Click on it -> use camera, save it to DB, delete from local storage
+        When photo taken and finished -> render activity
+
+- [ ] Gallery
+    Click on it -> see all photo from DB, u can delete it
+
+- [ ] About the calculation
+    Just an info how to use the app (not necessary)
+
+- [ ] Settings
+    Hardcoded values can be changed (i.e cost of the rent or cost per head)
+
+- [ ] Share
+    Not sure to need this
+
+- [ ] Send
+    Share it through messenger
