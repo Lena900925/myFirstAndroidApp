@@ -62,14 +62,13 @@ public class TakingPictureActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 imageView.setImageURI(file);
                 saveToFirebase.savePicture(file);
+                deleteRecursive(getPath("Bills"));
             }
         }
     }
 
     private static File getOutputMediaFile() {
-
-        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File mediaStorageDir = new File(path + File.separator + "Billz123");
+        File mediaStorageDir = getPath("NewBillz");
         if (!mediaStorageDir.exists()) {
             mediaStorageDir.mkdirs();
         }
@@ -84,5 +83,18 @@ public class TakingPictureActivity extends AppCompatActivity {
         return new File(mediaStorageDir.getPath() + File.separator +
                 "IMG_" + timeStamp + ".png");
 
+    }
+
+    private static File getPath(String folder){
+        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        return new File(path + File.separator + folder);
+    }
+    
+    void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
+
+        fileOrDirectory.delete();
     }
 }
