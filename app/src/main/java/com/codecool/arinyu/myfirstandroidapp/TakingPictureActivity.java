@@ -62,13 +62,13 @@ public class TakingPictureActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 imageView.setImageURI(file);
                 saveToFirebase.savePicture(file);
-                deleteRecursive(getPath("Bills"));
+                deleteRecursive(getPath("Billz"));
             }
         }
     }
 
     private static File getOutputMediaFile() {
-        File mediaStorageDir = getPath("NewBillz");
+        File mediaStorageDir = getPath("Bills");
         if (!mediaStorageDir.exists()) {
             mediaStorageDir.mkdirs();
         }
