@@ -75,11 +75,11 @@ public class TakingPictureActivity extends AppCompatActivity {
             }
         }
 
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//        return new File(mediaStorageDir.getPath() + File.separator +
-//                "IMG_"+ timeStamp + ".jpg");
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_"+ timeStamp + ".png");
 
-        String path = "ic_launcher.png";
-        return new File(mediaStorageDir.getPath() + File.separator + path);
+//        String path = "ic_launcher.png";
+//        return new File(mediaStorageDir.getPath() + File.separator + path);
     }
 }

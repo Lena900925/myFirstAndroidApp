@@ -9,13 +9,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SaveToFirebase {
     private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
 
     public void savePicture(Uri file){
-        StorageReference storageRef = firebaseStorage.getReferenceFromUrl("gs://the-bill-splitter-app.appspot.com").child("asd.png");
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+        StorageReference storageRef = firebaseStorage.getReferenceFromUrl("gs://the-bill-splitter-app.appspot.com").child(timeStamp + ".png");
         UploadTask uploadTask = storageRef.putFile(file);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
