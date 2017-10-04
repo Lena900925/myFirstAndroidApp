@@ -66,6 +66,7 @@ public class TakingPictureActivity extends AppCompatActivity {
         }
     }
     private static File getOutputMediaFile(){
+        // Handle if this dir exists! Because u need to delete it to get all pics:(
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "Bills");
 
@@ -79,7 +80,5 @@ public class TakingPictureActivity extends AppCompatActivity {
         return new File(mediaStorageDir.getPath() + File.separator +
                 "IMG_"+ timeStamp + ".png");
 
-//        String path = "ic_launcher.png";
-//        return new File(mediaStorageDir.getPath() + File.separator + path);
     }
 }
