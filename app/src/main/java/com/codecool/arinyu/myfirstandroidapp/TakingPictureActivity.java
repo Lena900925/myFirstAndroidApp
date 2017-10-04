@@ -35,7 +35,7 @@ public class TakingPictureActivity extends AppCompatActivity {
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             takePictureButton.setEnabled(false);
-            ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
     }
 
@@ -65,20 +65,24 @@ public class TakingPictureActivity extends AppCompatActivity {
             }
         }
     }
-    private static File getOutputMediaFile(){
-        // Handle if this dir exists! Because u need to delete it to get all pics:(
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "Bills");
 
-        if (!mediaStorageDir.exists()){
-            if (!mediaStorageDir.mkdirs()){
-                return null;
-            }
+    private static File getOutputMediaFile() {
+
+        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File mediaStorageDir = new File(path + File.separator + "Billz123");
+        if (!mediaStorageDir.exists()) {
+            mediaStorageDir.mkdirs();
         }
+
+//        if (!mediaStorageDir.exists()){
+//            if (!mediaStorageDir.mkdirs()){
+//                return null;
+//            }
+//        }
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         return new File(mediaStorageDir.getPath() + File.separator +
-                "IMG_"+ timeStamp + ".png");
+                "IMG_" + timeStamp + ".png");
 
     }
 }
