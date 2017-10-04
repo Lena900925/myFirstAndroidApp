@@ -2,15 +2,21 @@
 
 - [ ] Take a photo of the bill
 
-        When clicking on it - use camera - save it to DB
+        When clicking on Menu item - use camera
         
-        Delete from local storage
+        Upload it to DB - DONE
         
-        When photo taken and finished - render activity
+        Delete from local storage OR don't save it locally
+        
+        When photo taken - fix the rendered pic size
+        
+        Add button to go back
 
 - [ ] Gallery
         
-        See all photos from DB - deletable pics
+        See all photos from DB 
+        
+        Make them deletable
 
 - [ ] About the calculation
         
