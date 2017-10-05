@@ -1,8 +1,10 @@
 package com.codecool.arinyu.myfirstandroidapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,6 +27,7 @@ public class TakingPictureActivity extends AppCompatActivity {
     private Button takePictureButton;
     private ImageView imageView;
     private Uri file;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,26 +53,44 @@ public class TakingPictureActivity extends AppCompatActivity {
         }
     }
 
-    public void takePicture(View view) {
+    public void takePicture(View view) throws IOException {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        Uri imageUri = intent.getData();
+//        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
         file = Uri.fromFile(getOutputMediaFile());
         intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
         startActivityForResult(intent, 100);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
+                //int rot = getCameraPhotoOrientation(this, file, file.getPath());
+//                if (rot != 0)
+//                    bitmap = new RotateOrientation().RotateOrientationCall(bitmap, rot);
+                //imageView.setImageURI(getImageUri(getBaseContext(), bitmap));
                 imageView.setImageURI(file);
+                //
+//                Bundle extras = intent.getExtras();
+//                Bitmap imageBitmap = (Bitmap) extras.get("intent");
+//                imageView.setImageBitmap(imageBitmap);
+                //
+                //imageView.setImageBitmap(bitmap);
                 saveToFirebase.savePicture(file);
-                deleteRecursive(getPath("Billz"));
+                //deleteRecursive(getThePath("Billz"));
             }
         }
     }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
 
-    private static File getOutputMediaFile() {
-        File mediaStorageDir = getPath("Bills");
+    static File getOutputMediaFile() {
+        File mediaStorageDir = getThePath("Bills");
         if (!mediaStorageDir.exists()) {
             mediaStorageDir.mkdirs();
         }
@@ -85,11 +107,11 @@ public class TakingPictureActivity extends AppCompatActivity {
 
     }
 
-    private static File getPath(String folder){
+    private static File getThePath(String folder) {
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         return new File(path + File.separator + folder);
     }
-    
+
     void deleteRecursive(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory())
             for (File child : fileOrDirectory.listFiles())

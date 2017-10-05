@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText mRentUserInput;
+    private Uri file;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,8 +140,12 @@ public class MainActivity extends AppCompatActivity
 
         // Handle the camera action
         if (id == R.id.nav_camera) {
-            Intent intent = new Intent(this, TakingPictureActivity.class);
-            startActivity(intent);
+
+            // Version B
+//            imageView = (ImageView) findViewById(R.id.imageview);
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            }
 
         } else if (id == R.id.nav_gallery) {
 
@@ -157,4 +164,32 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                takePhoto();
+            }
+        }
+    }
+    public void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        file = Uri.fromFile(TakingPictureActivity.getOutputMediaFile());
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+        startActivityForResult(intent, 100);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+                
+                SaveToFirebase saveToFirebase = new SaveToFirebase();
+                saveToFirebase.savePicture(file);
+//                Snackbar.make(imageView, "Your picture has been uploaded successfully ;)", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                //deleteRecursive(getThePath("Billz"));
+            }
+        }
+    }
 }
