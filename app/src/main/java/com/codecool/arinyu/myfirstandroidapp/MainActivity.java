@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.hardware.Camera.PictureCallback;
@@ -44,8 +45,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText mRentUserInput;
     private File myFile;
-    private Bitmap realImage;
-    private Uri file;
+    private Bitmap realImage = null;
+    private Uri uri;
+    private ImageView realImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-        
+
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,54 +179,27 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-            takePic();
+                takePic();
             }
         }
     }
 
     private void takePic() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //myFile= TakingPictureActivity.getOutputMediaFile();
-        //intent.putExtra(MediaStore.EXTRA_OUTPUT, realImage);
-//        file = Uri.fromFile(TakingPictureActivity.getOutputMediaFile());
-        file = Uri.fromFile(TakingPictureActivity.getOutputMediaFile());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+        // A version
+        uri = Uri.fromFile(TakingPictureActivity.getOutputMediaFile());
+
+
+        //B version
+//        myFile= TakingPictureActivity.getOutputMediaFile(); //File type
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//        realImage = BitmapFactory.decodeFile(myFile.getPath()); // Bitmap
+
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, 100);
     }
-
-    PictureCallback picture = new PictureCallback() {
-
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-
-            if ((myFile.exists())) {
-                myFile.delete();
-            }
-            try {
-                FileOutputStream fos = new FileOutputStream(myFile);
-                realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-                ExifInterface exif = new ExifInterface((myFile.toString()));
-
-                if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")) {
-                    realImage = rotate(realImage, 90);
-                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")) {
-                    realImage = rotate(realImage, 270);
-                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")) {
-                    realImage = rotate(realImage, 180);
-                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")) {
-                    realImage = rotate(realImage, 90);
-                }
-
-                //boolean bo = realImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                fos.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-    };
 
     public static Bitmap rotate(Bitmap bitmap, int degree) {
         int w = bitmap.getWidth();
@@ -240,10 +215,45 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-
+//                final PictureCallback picture = new PictureCallback() {
+                try {
+                    realImage = MediaStore.Images.Media.getBitmap(
+                            this.getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//                    @Override
+//                    public void onPictureTaken(byte[] data, Camera camera) {
+//
+//                        if ((myFile.exists())) {
+//                            myFile.delete();
+//                        }
+//                        try {
+//                            FileOutputStream fos = new FileOutputStream(myFile);
+//                            realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+//                            ExifInterface exif = new ExifInterface((myFile.toString()));
+//
+//                            if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")) {
+//                                realImage = rotate(realImage, 90);
+//                            } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")) {
+//                                realImage = rotate(realImage, 270);
+//                            } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")) {
+//                                realImage = rotate(realImage, 180);
+//                            } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")) {
+//                                realImage = rotate(realImage, 90);
+//                            }
+//
+//                            //boolean bo = realImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                            fos.close();
+//
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                };
                 SaveToFirebase saveToFirebase = new SaveToFirebase();
-                saveToFirebase.savePicture(file);
-                //saveToFirebase.savePicture(realImage);
+                //saveToFirebase.savePicture(file);
+                saveToFirebase.savePicture(realImage);
 
 //                Snackbar.make(imageView, "Your picture has been uploaded successfully ;)", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
