@@ -2,9 +2,15 @@ package com.codecool.arinyu.myfirstandroidapp;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import android.graphics.Matrix;
+import android.hardware.Camera;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -23,21 +29,23 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.hardware.Camera.PictureCallback;
 
 import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
 
 import java.io.File;;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText mRentUserInput;
+    private File myFile;
+    private Bitmap realImage;
     private Uri file;
-    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mRentUserInput = (EditText) findViewById(R.id.editInput);
         final Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
-        //
+
         mRentUserInput.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -58,7 +66,7 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-        //
+        
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,23 +177,74 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                takePhoto();
+            takePic();
             }
         }
     }
-    public void takePhoto() {
+
+    private void takePic() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //myFile= TakingPictureActivity.getOutputMediaFile();
+        //intent.putExtra(MediaStore.EXTRA_OUTPUT, realImage);
+//        file = Uri.fromFile(TakingPictureActivity.getOutputMediaFile());
         file = Uri.fromFile(TakingPictureActivity.getOutputMediaFile());
         intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
         startActivityForResult(intent, 100);
     }
+
+    PictureCallback picture = new PictureCallback() {
+
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+
+            if ((myFile.exists())) {
+                myFile.delete();
+            }
+            try {
+                FileOutputStream fos = new FileOutputStream(myFile);
+                realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+                ExifInterface exif = new ExifInterface((myFile.toString()));
+
+                if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")) {
+                    realImage = rotate(realImage, 90);
+                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")) {
+                    realImage = rotate(realImage, 270);
+                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")) {
+                    realImage = rotate(realImage, 180);
+                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")) {
+                    realImage = rotate(realImage, 90);
+                }
+
+                //boolean bo = realImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    };
+
+    public static Bitmap rotate(Bitmap bitmap, int degree) {
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        Matrix mtx = new Matrix();
+        mtx.setRotate(degree);
+
+        return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-                
+
                 SaveToFirebase saveToFirebase = new SaveToFirebase();
                 saveToFirebase.savePicture(file);
+                //saveToFirebase.savePicture(realImage);
+
 //                Snackbar.make(imageView, "Your picture has been uploaded successfully ;)", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
                 //deleteRecursive(getThePath("Billz"));
