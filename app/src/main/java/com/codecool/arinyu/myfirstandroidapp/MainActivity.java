@@ -35,8 +35,11 @@ import android.widget.Toast;
 import android.hardware.Camera.PictureCallback;
 
 import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -189,7 +192,8 @@ public class MainActivity extends AppCompatActivity
 
     private void takePic() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        uri = Uri.fromFile(TakingPictureActivity.getOutputMediaFile());
+        myFile = TakingPictureActivity.getOutputMediaFile();
+        uri = Uri.fromFile(myFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, 100);
     }
@@ -208,53 +212,60 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
+
                 try {
                     realImage = MediaStore.Images.Media.getBitmap(
                             this.getContentResolver(), uri);
-
-                    final PictureCallback picture = new PictureCallback() {
-
-                        @Override
-                        public void onPictureTaken(byte[] data, Camera camera) {
-
-                            if ((myFile.exists())) {
-                                myFile.delete();
-                            }
-                            try {
-                                FileOutputStream fos = new FileOutputStream(myFile);
-                                realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                ExifInterface exif = new ExifInterface((myFile.toString()));
-
-                                if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")) {
-                                    realImage = rotate(realImage, 90);
-                                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")) {
-                                    realImage = rotate(realImage, 270);
-                                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")) {
-                                    realImage = rotate(realImage, 180);
-                                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")) {
-                                    realImage = rotate(realImage, 90);
-                                }
-
-                                //boolean bo = realImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                                fos.close();
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    };
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(myFile);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                ExifInterface exif = null;
+                try {
+                    exif = new ExifInterface((myFile.toString()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Logger.addLogAdapter(new AndroidLogAdapter());
+
+                if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")) {
+                    realImage = rotate(realImage, 90);
+                    Logger.i("ORIENTATION TAG IS 6");
+                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")) {
+                    realImage = rotate(realImage, 270);
+                    Logger.i("ORIENTATION TAG IS 8");
+
+                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")) {
+                    realImage = rotate(realImage, 180);
+                    Logger.i("ORIENTATION TAG IS 3");
+
+                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")) {
+                    realImage = rotate(realImage, 90);
+                    Logger.i("ORIENTATION TAG IS " + exif.getAttribute(ExifInterface.TAG_ORIENTATION));
+
+                }
                 SaveToFirebase saveToFirebase = new SaveToFirebase();
                 saveToFirebase.savePicture(realImage);
+                Logger.i("IMAGE UPLOADED SUCCESSFULLY!");
+
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
 //                Snackbar.make(imageView, "Your picture has been uploaded successfully ;)", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                TakingPictureActivity takingPictureActivity = new TakingPictureActivity();
-                takingPictureActivity.deleteRecursive(takingPictureActivity.getThePath("Bills"));
-            }
-        }
+        TakingPictureActivity takingPictureActivity = new TakingPictureActivity();
+        //takingPictureActivity.deleteRecursive(TakingPictureActivity.getThePath("Bills"));
     }
 }
