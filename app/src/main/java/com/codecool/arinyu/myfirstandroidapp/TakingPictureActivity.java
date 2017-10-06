@@ -66,17 +66,7 @@ public class TakingPictureActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-                //int rot = getCameraPhotoOrientation(this, file, file.getPath());
-//                if (rot != 0)
-//                    bitmap = new RotateOrientation().RotateOrientationCall(bitmap, rot);
-                //imageView.setImageURI(getImageUri(getBaseContext(), bitmap));
                 imageView.setImageURI(file);
-                //
-//                Bundle extras = intent.getExtras();
-//                Bitmap imageBitmap = (Bitmap) extras.get("intent");
-//                imageView.setImageBitmap(imageBitmap);
-                //
-                //imageView.setImageBitmap(bitmap);
                 saveToFirebase.savePicture(file);
                 //deleteRecursive(getThePath("Billz"));
             }
@@ -107,7 +97,7 @@ public class TakingPictureActivity extends AppCompatActivity {
 
     }
 
-    private static File getThePath(String folder) {
+    static File getThePath(String folder) {
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         return new File(path + File.separator + folder);
     }

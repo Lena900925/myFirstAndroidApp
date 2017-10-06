@@ -155,19 +155,22 @@ public class MainActivity extends AppCompatActivity
 //            imageView = (ImageView) findViewById(R.id.imageview);
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
             }
 
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_info) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
+//            else if (id == R.id.nav_gallery) {
+//
+//        } else if (id == R.id.nav_info) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -186,17 +189,7 @@ public class MainActivity extends AppCompatActivity
 
     private void takePic() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // A version
         uri = Uri.fromFile(TakingPictureActivity.getOutputMediaFile());
-
-
-        //B version
-//        myFile= TakingPictureActivity.getOutputMediaFile(); //File type
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-//        realImage = BitmapFactory.decodeFile(myFile.getPath()); // Bitmap
-
-
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, 100);
     }
@@ -215,49 +208,52 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-//                final PictureCallback picture = new PictureCallback() {
                 try {
                     realImage = MediaStore.Images.Media.getBitmap(
                             this.getContentResolver(), uri);
+
+                    final PictureCallback picture = new PictureCallback() {
+
+                        @Override
+                        public void onPictureTaken(byte[] data, Camera camera) {
+
+                            if ((myFile.exists())) {
+                                myFile.delete();
+                            }
+                            try {
+                                FileOutputStream fos = new FileOutputStream(myFile);
+                                realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                ExifInterface exif = new ExifInterface((myFile.toString()));
+
+                                if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")) {
+                                    realImage = rotate(realImage, 90);
+                                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")) {
+                                    realImage = rotate(realImage, 270);
+                                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")) {
+                                    realImage = rotate(realImage, 180);
+                                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")) {
+                                    realImage = rotate(realImage, 90);
+                                }
+
+                                //boolean bo = realImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                                fos.close();
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                    @Override
-//                    public void onPictureTaken(byte[] data, Camera camera) {
-//
-//                        if ((myFile.exists())) {
-//                            myFile.delete();
-//                        }
-//                        try {
-//                            FileOutputStream fos = new FileOutputStream(myFile);
-//                            realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-//                            ExifInterface exif = new ExifInterface((myFile.toString()));
-//
-//                            if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")) {
-//                                realImage = rotate(realImage, 90);
-//                            } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")) {
-//                                realImage = rotate(realImage, 270);
-//                            } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")) {
-//                                realImage = rotate(realImage, 180);
-//                            } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")) {
-//                                realImage = rotate(realImage, 90);
-//                            }
-//
-//                            //boolean bo = realImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-//                            fos.close();
-//
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                };
+
                 SaveToFirebase saveToFirebase = new SaveToFirebase();
-                //saveToFirebase.savePicture(file);
                 saveToFirebase.savePicture(realImage);
 
 //                Snackbar.make(imageView, "Your picture has been uploaded successfully ;)", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                //deleteRecursive(getThePath("Billz"));
+                TakingPictureActivity takingPictureActivity = new TakingPictureActivity();
+                takingPictureActivity.deleteRecursive(takingPictureActivity.getThePath("Bills"));
             }
         }
     }
