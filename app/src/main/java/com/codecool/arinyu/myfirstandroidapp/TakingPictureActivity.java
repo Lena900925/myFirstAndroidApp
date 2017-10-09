@@ -53,22 +53,22 @@ public class TakingPictureActivity extends AppCompatActivity {
         }
     }
 
-    public void takePicture(View view) throws IOException {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        Uri imageUri = intent.getData();
-//        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-        file = Uri.fromFile(getOutputMediaFile());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-        startActivityForResult(intent, 100);
-    }
+//    public void takePicture(View view) throws IOException {
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////        Uri imageUri = intent.getData();
+////        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+//        file = Uri.fromFile(getOutputMediaFile("Bills", ));
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+//        startActivityForResult(intent, 100);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
                 imageView.setImageURI(file);
-                saveToFirebase.savePicture(file);
-                //deleteRecursive(getThePath("Billz"));
+                //saveToFirebase.savePicture(file);
+                //deleteRecursive(getThePath("Bills"));
             }
         }
     }
@@ -79,8 +79,8 @@ public class TakingPictureActivity extends AppCompatActivity {
         return Uri.parse(path);
     }
 
-    static File getOutputMediaFile() {
-        File mediaStorageDir = getThePath("Bills");
+    static File getOutputMediaFile(String folder, String timeStamp) {
+        File mediaStorageDir = getThePath(folder); // Bills
         if (!mediaStorageDir.exists()) {
             mediaStorageDir.mkdirs();
         }
@@ -91,9 +91,8 @@ public class TakingPictureActivity extends AppCompatActivity {
 //            }
 //        }
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         return new File(mediaStorageDir.getPath() + File.separator +
-                "IMG_" + timeStamp + ".png");
+                "IMG_" + timeStamp + ".jpeg");
 
     }
 
