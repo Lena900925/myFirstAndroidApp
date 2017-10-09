@@ -1,12 +1,8 @@
 package com.codecool.arinyu.myfirstandroidapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,7 +24,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,21 +32,16 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.codecool.arinyu.myfirstandroidapp.R.id.drawer_layout;
+import static com.codecool.arinyu.myfirstandroidapp.R.id.login_menu_item;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText mRentUserInput;
-    private File myFile;
-    private Bitmap realImage = null;
-    private Uri uri;
     private Uri uriFile;
     private String timeStamp;
 
@@ -141,8 +131,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.login_menu_item) {
+
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+            //return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -187,7 +180,6 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-//                takePicToCloud();
                 takeFilePhoto();
             }
         }
@@ -198,16 +190,6 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         uriFile = Uri.fromFile(TakingPictureActivity.getOutputMediaFile(getFolderName(), setTimeStampForImageName()));
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uriFile);
-        startActivityForResult(intent, 100);
-    }
-
-
-    // Saves correctly to cloud
-    private void takePicToCloud() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        myFile = TakingPictureActivity.getOutputMediaFile(getFolderName(), setTimeStampForImageName());
-        uri = Uri.fromFile(myFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, 100);
     }
 
@@ -224,52 +206,10 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-//                try {
-//                    realImage = MediaStore.Images.Media.getBitmap(
-//                            this.getContentResolver(), uri);
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                FileOutputStream fos = null;
-//                try {
-//                    fos = new FileOutputStream(myFile);
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                ExifInterface exif = null;
-//                try {
-//                    exif = new ExifInterface((myFile.toString()));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                Logger.addLogAdapter(new AndroidLogAdapter());
-//
-//                if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")) {
-//                    realImage = rotate(realImage, 90);
-//                    Logger.i("ORIENTATION TAG IS 6");
-//                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")) {
-//                    realImage = rotate(realImage, 270);
-//                    Logger.i("ORIENTATION TAG IS 8");
-//
-//                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")) {
-//                    realImage = rotate(realImage, 180);
-//                    Logger.i("ORIENTATION TAG IS 3");
-//
-//                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")) {
-//                    realImage = rotate(realImage, 90);
-//                    Logger.i("ORIENTATION TAG IS " + exif.getAttribute(ExifInterface.TAG_ORIENTATION));
-//
-//                }
                 SaveToFirebase saveToFirebase = new SaveToFirebase();
-//                saveToFirebase.savePicture(realImage);
-
                 Uri uriOnPhone = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + getFolderName() + File.separator + "IMG_" + timeStamp + ".jpeg"));
                 Logger.addLogAdapter(new AndroidLogAdapter());
-                Logger.i("Name of URI: " + uriOnPhone.toString());
-                saveToFirebase.savePicture(uriOnPhone, timeStamp); //should from mediastorage!
+                saveToFirebase.savePicture(uriOnPhone, timeStamp);
                 Logger.i("IMAGE UPLOADED SUCCESSFULLY!");
 
 
@@ -278,43 +218,10 @@ public class MainActivity extends AppCompatActivity
                         .make(findViewById(drawer_layout), "Your photo has been uploaded successfully ;)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null);
                 snackbar.show();
-
-//                try {
-//                    fos.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
             }
         }
 
         TakingPictureActivity takingPictureActivity = new TakingPictureActivity();
-        takingPictureActivity.deleteRecursive(TakingPictureActivity.getThePath("Bills"));
-    }
-
-    public static Bitmap rotate(Bitmap bitmap, int degree) {
-        int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
-
-        Matrix mtx = new Matrix();
-        mtx.setRotate(degree);
-
-        return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
-    }
-
-    private int getOrientation(Uri photoUri) {
-        Context context = null;
-        Cursor cursor = context.getContentResolver().query(photoUri,
-                new String[]{MediaStore.Images.ImageColumns.ORIENTATION}, null, null, null);
-
-        if (cursor.getCount() != 1) {
-            cursor.close();
-            return -1;
-        }
-
-        cursor.moveToFirst();
-        int orientation = cursor.getInt(0);
-        cursor.close();
-        cursor = null;
-        return orientation;
+        takingPictureActivity.deleteRecursive(TakingPictureActivity.getThePath(getFolderName()));
     }
 }
