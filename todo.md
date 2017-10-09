@@ -6,11 +6,13 @@
         
         Upload it to DB - DONE
         
-        Delete from local storage OR don't save it locally
+        Delete from local storage OR don't save it locally DONE
         
-        When photo taken - fix the rendered pic size
+        When photo taken - fix the rendered pic size - DON'T NEED THIS
         
-        Add button to go back
+        Add button to go back - NOT NECESSARY
+        
+        Rotation bug!
 
 - [ ] Gallery
         
