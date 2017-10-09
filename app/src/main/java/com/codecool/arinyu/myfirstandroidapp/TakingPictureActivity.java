@@ -1,8 +1,10 @@
 package com.codecool.arinyu.myfirstandroidapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,6 +27,7 @@ public class TakingPictureActivity extends AppCompatActivity {
     private Button takePictureButton;
     private ImageView imageView;
     private Uri file;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,26 +53,34 @@ public class TakingPictureActivity extends AppCompatActivity {
         }
     }
 
-    public void takePicture(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        file = Uri.fromFile(getOutputMediaFile());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-        startActivityForResult(intent, 100);
-    }
+//    public void takePicture(View view) throws IOException {
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////        Uri imageUri = intent.getData();
+////        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+//        file = Uri.fromFile(getOutputMediaFile("Bills", ));
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+//        startActivityForResult(intent, 100);
+//    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
                 imageView.setImageURI(file);
-                saveToFirebase.savePicture(file);
-                deleteRecursive(getPath("Bills"));
+                //saveToFirebase.savePicture(file);
+                //deleteRecursive(getThePath("Bills"));
             }
         }
     }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
 
-    private static File getOutputMediaFile() {
-        File mediaStorageDir = getPath("NewBillz");
+    static File getOutputMediaFile(String folder, String timeStamp) {
+        File mediaStorageDir = getThePath(folder); // Bills
         if (!mediaStorageDir.exists()) {
             mediaStorageDir.mkdirs();
         }
@@ -79,17 +91,16 @@ public class TakingPictureActivity extends AppCompatActivity {
 //            }
 //        }
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         return new File(mediaStorageDir.getPath() + File.separator +
-                "IMG_" + timeStamp + ".png");
+                "IMG_" + timeStamp + ".jpeg");
 
     }
 
-    private static File getPath(String folder){
+    static File getThePath(String folder) {
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         return new File(path + File.separator + folder);
     }
-    
+
     void deleteRecursive(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory())
             for (File child : fileOrDirectory.listFiles())

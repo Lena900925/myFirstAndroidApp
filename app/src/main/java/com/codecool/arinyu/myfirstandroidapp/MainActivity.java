@@ -1,7 +1,12 @@
 package com.codecool.arinyu.myfirstandroidapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,18 +28,32 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
-import java.io.File;;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.codecool.arinyu.myfirstandroidapp.R.id.drawer_layout;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText mRentUserInput;
+    private File myFile;
+    private Bitmap realImage = null;
+    private Uri uri;
+    private Uri uriFile;
+    private String timeStamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mRentUserInput = (EditText) findViewById(R.id.editInput);
         final Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
-        //
+
         mRentUserInput.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -55,7 +74,7 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-        //
+
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,24 +156,165 @@ public class MainActivity extends AppCompatActivity
 
         // Handle the camera action
         if (id == R.id.nav_camera) {
-            Intent intent = new Intent(this, TakingPictureActivity.class);
-            startActivity(intent);
 
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_info) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+            // Version B
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            }
 
         }
+//            else if (id == R.id.nav_gallery) {
+//
+//        } else if (id == R.id.nav_info) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+//                takePicToCloud();
+                takeFilePhoto();
+            }
+        }
+    }
+
+    // Saves correctly to local storage
+    private void takeFilePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        uriFile = Uri.fromFile(TakingPictureActivity.getOutputMediaFile(getFolderName(), setTimeStampForImageName()));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriFile);
+        startActivityForResult(intent, 100);
+    }
+
+
+    // Saves correctly to cloud
+    private void takePicToCloud() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        myFile = TakingPictureActivity.getOutputMediaFile(getFolderName(), setTimeStampForImageName());
+        uri = Uri.fromFile(myFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent, 100);
+    }
+
+    private String getFolderName() {
+        return "Bills";
+    }
+
+    private String setTimeStampForImageName() {
+        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return timeStamp;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+//                try {
+//                    realImage = MediaStore.Images.Media.getBitmap(
+//                            this.getContentResolver(), uri);
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                FileOutputStream fos = null;
+//                try {
+//                    fos = new FileOutputStream(myFile);
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                ExifInterface exif = null;
+//                try {
+//                    exif = new ExifInterface((myFile.toString()));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                Logger.addLogAdapter(new AndroidLogAdapter());
+//
+//                if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")) {
+//                    realImage = rotate(realImage, 90);
+//                    Logger.i("ORIENTATION TAG IS 6");
+//                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")) {
+//                    realImage = rotate(realImage, 270);
+//                    Logger.i("ORIENTATION TAG IS 8");
+//
+//                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")) {
+//                    realImage = rotate(realImage, 180);
+//                    Logger.i("ORIENTATION TAG IS 3");
+//
+//                } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")) {
+//                    realImage = rotate(realImage, 90);
+//                    Logger.i("ORIENTATION TAG IS " + exif.getAttribute(ExifInterface.TAG_ORIENTATION));
+//
+//                }
+                SaveToFirebase saveToFirebase = new SaveToFirebase();
+//                saveToFirebase.savePicture(realImage);
+
+                Uri uriOnPhone = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + getFolderName() + File.separator + "IMG_" + timeStamp + ".jpeg"));
+                Logger.addLogAdapter(new AndroidLogAdapter());
+                Logger.i("Name of URI: " + uriOnPhone.toString());
+                saveToFirebase.savePicture(uriOnPhone, timeStamp); //should from mediastorage!
+                Logger.i("IMAGE UPLOADED SUCCESSFULLY!");
+
+
+                //SNACKBAR
+                Snackbar snackbar = Snackbar
+                        .make(findViewById(drawer_layout), "Your photo has been uploaded successfully ;)", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                snackbar.show();
+
+//                try {
+//                    fos.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+            }
+        }
+
+        TakingPictureActivity takingPictureActivity = new TakingPictureActivity();
+        takingPictureActivity.deleteRecursive(TakingPictureActivity.getThePath("Bills"));
+    }
+
+    public static Bitmap rotate(Bitmap bitmap, int degree) {
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        Matrix mtx = new Matrix();
+        mtx.setRotate(degree);
+
+        return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
+    }
+
+    private int getOrientation(Uri photoUri) {
+        Context context = null;
+        Cursor cursor = context.getContentResolver().query(photoUri,
+                new String[]{MediaStore.Images.ImageColumns.ORIENTATION}, null, null, null);
+
+        if (cursor.getCount() != 1) {
+            cursor.close();
+            return -1;
+        }
+
+        cursor.moveToFirst();
+        int orientation = cursor.getInt(0);
+        cursor.close();
+        cursor = null;
+        return orientation;
+    }
 }
