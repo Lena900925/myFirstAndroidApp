@@ -2,6 +2,7 @@ package com.codecool.arinyu.myfirstandroidapp;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.codecool.arinyu.myfirstandroidapp.R.id.drawer_layout;
+import static com.codecool.arinyu.myfirstandroidapp.R.id.login_menu_item;
 
 
 public class MainActivity extends AppCompatActivity
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-            else if (id == R.id.nav_gallery) {
+        else if (id == R.id.nav_gallery) {
 
         }
 //        else if (id == R.id.nav_info) {
@@ -180,27 +182,27 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                TakingPicture takingPicture = new TakingPicture();
-                takingPicture.takeFilePhoto();
+                takeFilePhoto();
             }
         }
     }
 
-//    private void takeFilePhoto() {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        uriFile = Uri.fromFile(TakingPicture.getOutputMediaFile(getFolderName(), setTimeStampForImageName()));
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriFile);
-//        startActivityForResult(intent, 100);
-//    }
-//
-//    private String getFolderName() {
-//        return "Bills";
-//    }
-//
-//    private String setTimeStampForImageName() {
-//        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//        return timeStamp;
-//    }
+    // Saves correctly to local storage
+    private void takeFilePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        uriFile = Uri.fromFile(TakingPicture.getOutputMediaFile(getFolderName(), setTimeStampForImageName()));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriFile);
+        startActivityForResult(intent, 100);
+    }
+
+    private String getFolderName() {
+        return "Bills";
+    }
+
+    private String setTimeStampForImageName() {
+        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return timeStamp;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -221,6 +223,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        TakingPicture takingPicture = new TakingPicture();
         takingPicture.deleteRecursive(TakingPicture.getThePath(getFolderName()));
     }
 }
