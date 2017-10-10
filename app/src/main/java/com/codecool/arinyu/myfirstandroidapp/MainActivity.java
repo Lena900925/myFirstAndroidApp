@@ -150,7 +150,6 @@ public class MainActivity extends AppCompatActivity
         // Handle the camera action
         if (id == R.id.nav_camera) {
 
-            // Version B
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
             } else {
@@ -158,9 +157,10 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-//            else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_info) {
+            else if (id == R.id.nav_gallery) {
+
+        }
+//        else if (id == R.id.nav_info) {
 //
 //        } else if (id == R.id.nav_manage) {
 //

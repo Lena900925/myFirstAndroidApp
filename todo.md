@@ -30,7 +30,7 @@
 
 - [ ] Share
         
-        Not sure to need this
+        Not sure I need it
 
 - [ ] Send
 
