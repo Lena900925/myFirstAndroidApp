@@ -1,5 +1,5 @@
 ## My specification ~ TODO List
-
+# Menu:
 - [ ] Take a photo of the bill
 
         When clicking on Menu item - use camera
@@ -35,3 +35,7 @@
 - [ ] Send
 
         Share it through messenger
+        
+#Further todos:
+
+- [ ] Login button should be positioned
