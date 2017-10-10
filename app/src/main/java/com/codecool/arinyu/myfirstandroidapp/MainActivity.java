@@ -1,17 +1,11 @@
 package com.codecool.arinyu.myfirstandroidapp;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,24 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
-import com.codecool.arinyu.myfirstandroidapp.take_picture.SaveToFirebase;
 import com.codecool.arinyu.myfirstandroidapp.take_picture.TakingPicture;
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.Logger;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static com.codecool.arinyu.myfirstandroidapp.R.id.drawer_layout;
-import static com.codecool.arinyu.myfirstandroidapp.R.id.login_menu_item;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText mRentUserInput;
-    private Uri uriFile;
-    private String timeStamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
