@@ -2,6 +2,7 @@ package com.codecool.arinyu.myfirstandroidapp;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,14 +28,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
-import java.io.File;;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.codecool.arinyu.myfirstandroidapp.R.id.drawer_layout;
+import static com.codecool.arinyu.myfirstandroidapp.R.id.login_menu_item;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText mRentUserInput;
+    private Uri uriFile;
+    private String timeStamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mRentUserInput = (EditText) findViewById(R.id.editInput);
         final Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
-        //
+
         mRentUserInput.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -55,7 +64,7 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-        //
+
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,8 +131,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.login_menu_item) {
+
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+            //return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -137,24 +149,79 @@ public class MainActivity extends AppCompatActivity
 
         // Handle the camera action
         if (id == R.id.nav_camera) {
-            Intent intent = new Intent(this, TakingPictureActivity.class);
-            startActivity(intent);
 
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_info) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            }
 
         }
+            else if (id == R.id.nav_gallery) {
+
+        }
+//        else if (id == R.id.nav_info) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                takeFilePhoto();
+            }
+        }
+    }
+
+    // Saves correctly to local storage
+    private void takeFilePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        uriFile = Uri.fromFile(TakingPictureActivity.getOutputMediaFile(getFolderName(), setTimeStampForImageName()));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriFile);
+        startActivityForResult(intent, 100);
+    }
+
+    private String getFolderName() {
+        return "Bills";
+    }
+
+    private String setTimeStampForImageName() {
+        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return timeStamp;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+                SaveToFirebase saveToFirebase = new SaveToFirebase();
+                Uri uriOnPhone = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + getFolderName() + File.separator + "IMG_" + timeStamp + ".jpeg"));
+                Logger.addLogAdapter(new AndroidLogAdapter());
+                saveToFirebase.savePicture(uriOnPhone, timeStamp);
+                Logger.i("IMAGE UPLOADED SUCCESSFULLY!");
+
+
+                //SNACKBAR
+                Snackbar snackbar = Snackbar
+                        .make(findViewById(drawer_layout), "Your photo has been uploaded successfully ;)", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                snackbar.show();
+            }
+        }
+
+        TakingPictureActivity takingPictureActivity = new TakingPictureActivity();
+        takingPictureActivity.deleteRecursive(TakingPictureActivity.getThePath(getFolderName()));
+    }
 }
