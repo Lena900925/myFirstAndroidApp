@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity
 
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
-            //return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -151,12 +150,8 @@ public class MainActivity extends AppCompatActivity
 
         // Handle the camera action
         if (id == R.id.nav_camera) {
-
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-            }
+            Intent takingPictureIntent = new Intent(this, TakingPicture.class);
+            startActivity(takingPictureIntent);
 
         } else if (id == R.id.nav_gallery) {
 
@@ -174,55 +169,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 0) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                takeFilePhoto();
-            }
-        }
-    }
-
-    // Saves correctly to local storage
-    private void takeFilePhoto() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        uriFile = Uri.fromFile(TakingPicture.getOutputMediaFile(getFolderName(), setTimeStampForImageName()));
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriFile);
-        startActivityForResult(intent, 100);
-    }
-
-    private String getFolderName() {
-        return "Bills";
-    }
-
-    private String setTimeStampForImageName() {
-        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        return timeStamp;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 100) {
-            if (resultCode == RESULT_OK) {
-                SaveToFirebase saveToFirebase = new SaveToFirebase();
-                Uri uriOnPhone = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + getFolderName() + File.separator + "IMG_" + timeStamp + ".jpeg"));
-                Logger.addLogAdapter(new AndroidLogAdapter());
-                saveToFirebase.savePicture(uriOnPhone, timeStamp);
-                Logger.i("IMAGE UPLOADED SUCCESSFULLY!");
-
-
-                //SNACKBAR
-                Snackbar snackbar = Snackbar
-                        .make(findViewById(drawer_layout), "Your photo has been uploaded successfully ;)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null);
-                snackbar.show();
-            }
-        }
-
-        TakingPicture takingPicture = new TakingPicture();
-        takingPicture.deleteRecursive(TakingPicture.getThePath(getFolderName()));
     }
 }

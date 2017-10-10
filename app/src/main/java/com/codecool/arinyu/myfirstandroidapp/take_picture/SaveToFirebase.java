@@ -12,7 +12,7 @@ import com.google.firebase.storage.UploadTask;
 public class SaveToFirebase {
     private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
 
-    public void savePicture(Uri uriFile, String timeStamp) {
+    void savePicture(Uri uriFile, String timeStamp) {
         StorageReference storageRef = firebaseStorage.getReferenceFromUrl("gs://the-bill-splitter-app.appspot.com").child(timeStamp + ".jpeg");
         UploadTask uploadTask = storageRef.putFile(uriFile);
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -24,7 +24,7 @@ public class SaveToFirebase {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
             }
