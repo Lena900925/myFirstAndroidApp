@@ -37,4 +37,5 @@
     <string name="takePicture">Take a photo</string>
     <string name="takePictureOnMenu">Take a photo of the bill</string>
     <string name="title_activity_taking_picture">TakingPictureActivity</string>
+    <string name="title_activity_gallery">GalleryActivity</string>
 </resources>

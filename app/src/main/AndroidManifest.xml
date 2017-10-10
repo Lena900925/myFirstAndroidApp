@@ -34,10 +34,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity
-            android:name=".TakingPictureActivity"
+            android:name=".take_picture.TakingPicture"
             android:label="@string/title_activity_taking_picture"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".photo_gallery.GalleryActivity"
+            android:label="@string/title_activity_gallery"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
