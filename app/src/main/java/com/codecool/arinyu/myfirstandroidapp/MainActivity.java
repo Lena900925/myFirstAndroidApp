@@ -158,8 +158,7 @@ public class MainActivity extends AppCompatActivity
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
             }
 
-        }
-        else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_gallery) {
 
         }
 //        else if (id == R.id.nav_info) {

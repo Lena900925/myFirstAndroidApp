@@ -1,13 +1,11 @@
 package com.codecool.arinyu.myfirstandroidapp.take_picture;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,17 +13,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.codecool.arinyu.myfirstandroidapp.R;
-import com.codecool.arinyu.myfirstandroidapp.take_picture.SaveToFirebase;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class TakingPicture extends AppCompatActivity {
-    private SaveToFirebase saveToFirebase = new SaveToFirebase();
     private Button takePictureButton;
     private ImageView imageView;
     private Uri file;
-    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +45,6 @@ public class TakingPicture extends AppCompatActivity {
         }
     }
 
-//    public void takePicture(View view) throws IOException {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-////        Uri imageUri = intent.getData();
-////        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-//        file = Uri.fromFile(getOutputMediaFile("Bills", ));
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-//        startActivityForResult(intent, 100);
-//    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 100) {
@@ -70,24 +55,13 @@ public class TakingPicture extends AppCompatActivity {
             }
         }
     }
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
+
 
     public static File getOutputMediaFile(String folder, String timeStamp) {
         File mediaStorageDir = getThePath(folder); // Bills
         if (!mediaStorageDir.exists()) {
             mediaStorageDir.mkdirs();
         }
-
-//        if (!mediaStorageDir.exists()){
-//            if (!mediaStorageDir.mkdirs()){
-//                return null;
-//            }
-//        }
 
         return new File(mediaStorageDir.getPath() + File.separator +
                 "IMG_" + timeStamp + ".jpeg");
