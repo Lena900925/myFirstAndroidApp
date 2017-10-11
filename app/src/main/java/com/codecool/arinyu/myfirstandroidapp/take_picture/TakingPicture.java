@@ -2,24 +2,14 @@ package com.codecool.arinyu.myfirstandroidapp.take_picture;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.codecool.arinyu.myfirstandroidapp.MainActivity;
-import com.codecool.arinyu.myfirstandroidapp.R;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -27,12 +17,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.codecool.arinyu.myfirstandroidapp.R.id.drawer_layout;
-
 public class TakingPicture extends AppCompatActivity {
     private Uri uriFile;
     private String timeStamp;
-    SaveToFirebase saveToFirebase = new SaveToFirebase();
+    FireBaseConnection fireBaseConnection = new FireBaseConnection();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +43,6 @@ public class TakingPicture extends AppCompatActivity {
         }
     }
 
-    // Saves correctly to local storage
     private void takeFilePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         uriFile = Uri.fromFile(getOutputMediaFile(getFolderName(), setTimeStampForImageName()));
@@ -78,7 +65,8 @@ public class TakingPicture extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Uri uriOnPhone = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + getFolderName() + File.separator + "IMG_" + timeStamp + ".jpeg"));
                 Logger.addLogAdapter(new AndroidLogAdapter());
-                saveToFirebase.savePicture(uriOnPhone, timeStamp); //I tried to get the correct orientation but it didn't work
+                fireBaseConnection.savePicture(uriOnPhone, timeStamp); //I tried to get the correct orientation but it didn't work
+                deleteRecursive(getThePath(getFolderName()));
                 Logger.i("IMAGE UPLOADED SUCCESSFULLY!");
                 finish();
             }

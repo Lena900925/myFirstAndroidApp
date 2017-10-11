@@ -9,14 +9,24 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.Logger;
 
-public class SaveToFirebase {
+public class FireBaseConnection {
     private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    String URLtoFirebase = "gs://the-bill-splitter-app.appspot.com";
+
+    void getPicturesFromFirebase() {
+        // Try to get all images:
+        String expression = "2017";
+        //need recursion
+        //OR
+        //WHILE TRUE ;)
+
+        StorageReference allRef = firebaseStorage.getReferenceFromUrl(URLtoFirebase).child(expression);
+        //
+    }
 
     void savePicture(Uri uriFile, String timeStamp) {
-        StorageReference storageRef = firebaseStorage.getReferenceFromUrl("gs://the-bill-splitter-app.appspot.com").child(timeStamp + ".jpeg");
+        StorageReference storageRef = firebaseStorage.getReferenceFromUrl(URLtoFirebase).child(timeStamp + ".jpeg");
         UploadTask uploadTask = storageRef.putFile(uriFile);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -30,8 +40,6 @@ public class SaveToFirebase {
 
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                Logger.addLogAdapter(new AndroidLogAdapter());
-                Logger.i("DOWNLOAD URL:" + downloadUrl);
                 assert downloadUrl != null;
                 Photo.addToPhotos(downloadUrl.toString());
             }
