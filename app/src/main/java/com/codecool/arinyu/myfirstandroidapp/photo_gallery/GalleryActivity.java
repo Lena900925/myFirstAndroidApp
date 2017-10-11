@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,15 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.codecool.arinyu.myfirstandroidapp.R;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 public class GalleryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recycler_layout);
+        setContentView(R.layout.recycler_layout); // okay for sure
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_images);
@@ -37,6 +40,7 @@ public class GalleryActivity extends AppCompatActivity {
 
             Context context = parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
+            //Inflate the layout
             View photoView = inflater.inflate(R.layout.recycler_imageview, parent, false);
             ImageGalleryAdapter.MyViewHolder viewHolder = new ImageGalleryAdapter.MyViewHolder(photoView);
             return viewHolder;
@@ -45,17 +49,18 @@ public class GalleryActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ImageGalleryAdapter.MyViewHolder holder, int position) {
 
-            Photo Photo = mPhotos[position];
+            Photo photo = mPhotos[position];
             ImageView imageView = holder.mPhotoImageView;
             Glide.with(mContext)
-                    .load(Photo.getUrl())
-                    .placeholder(R.drawable.ic_photo_placeholder)
+                    .load(photo.getUrl())
+                    .placeholder(R.drawable.ic_photo_placeholder) // still works
                     .into(imageView);
 
         }
 
         @Override
         public int getItemCount() {
+            Logger.addLogAdapter(new AndroidLogAdapter());
             return (mPhotos.length);
         }
 
@@ -71,13 +76,13 @@ public class GalleryActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onClick(View view) {
-
+            public void onClick(View view) { // maybe here is the problem
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION) {
-                    Photo Photo = mPhotos[position];
+                    Photo photo = mPhotos[position];
+
                     Intent intent = new Intent(mContext, PhotoActivity.class);
-                    intent.putExtra(PhotoActivity.EXTRA_PHOTO, Photo);
+                    intent.putExtra(PhotoActivity.EXTRA_SPACE_PHOTO, photo);
                     startActivity(intent);
                 }
             }

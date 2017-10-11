@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
+        <activity android:name=".photo_gallery.PhotoActivity" />
         <activity
             android:name=".take_picture.TakingPicture"
             android:label="@string/title_activity_taking_picture"

@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(takingPictureIntent);
 
         } else if (id == R.id.nav_gallery) {
-            Intent showGallery = new Intent(this, GalleryActivity.class);
+            Intent showGallery = new Intent(MainActivity.this, GalleryActivity.class);
             startActivity(showGallery);
         }
 //        else if (id == R.id.nav_info) {

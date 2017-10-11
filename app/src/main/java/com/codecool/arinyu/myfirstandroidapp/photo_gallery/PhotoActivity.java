@@ -1,16 +1,22 @@
 package com.codecool.arinyu.myfirstandroidapp.photo_gallery;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.codecool.arinyu.myfirstandroidapp.R;
 
 public class PhotoActivity extends AppCompatActivity {
 
-    public static final String EXTRA_PHOTO = "SpacePhotoActivity.SPACE_PHOTO";
+    public static final String EXTRA_SPACE_PHOTO = "PhotoActivity.PHOTO";
     private ImageView mImageView;
 
     @Override
@@ -19,12 +25,35 @@ public class PhotoActivity extends AppCompatActivity {
         setContentView(R.layout.recycler_detail);
 
         mImageView = (ImageView) findViewById(R.id.image);
-        Photo spacePhoto = getIntent().getParcelableExtra(EXTRA_PHOTO);
+        Photo Photo = getIntent().getParcelableExtra(EXTRA_SPACE_PHOTO);
 
         Glide.with(this)
-                .load(spacePhoto.getUrl())
+                .load(Photo.getUrl())
                 .asBitmap()
                 .error(R.drawable.ic_photo_placeholder)
+                .listener(new RequestListener<String, Bitmap>() {
+
+                    @Override
+                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+
+                        onPalette(Palette.from(resource).generate());
+                        mImageView.setImageBitmap(resource);
+
+                        return false;
+                    }
+
+                    public void onPalette(Palette palette) {
+                        if (null != palette) {
+                            ViewGroup parent = (ViewGroup) mImageView.getParent().getParent();
+                            parent.setBackgroundColor(palette.getDarkVibrantColor(Color.BLACK));
+                        }
+                    }
+                })
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mImageView);
     }
