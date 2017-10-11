@@ -19,7 +19,7 @@ public class GalleryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recycler_layout); // okay for sure
+        setContentView(R.layout.recycler_layout);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_images);
@@ -30,7 +30,7 @@ public class GalleryActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.MyViewHolder>  {
+    private class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.MyViewHolder> {
 
         @Override
         public ImageGalleryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -50,7 +50,7 @@ public class GalleryActivity extends AppCompatActivity {
             ImageView imageView = holder.mPhotoImageView;
             Glide.with(mContext)
                     .load(photo.getUrl())
-                    .placeholder(R.drawable.ic_photo_placeholder) // still works
+                    .placeholder(R.drawable.ic_photo_placeholder)
                     .into(imageView);
 
         }
@@ -72,9 +72,9 @@ public class GalleryActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onClick(View view) { // maybe here is the problem
+            public void onClick(View view) {
                 int position = getAdapterPosition();
-                if(position != RecyclerView.NO_POSITION) {
+                if (position != RecyclerView.NO_POSITION) {
                     Photo photo = mPhotos[position];
 
                     Intent intent = new Intent(mContext, PhotoActivity.class);

@@ -3,10 +3,17 @@ package com.codecool.arinyu.myfirstandroidapp.photo_gallery;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Photo implements Parcelable {
+import java.util.ArrayList;
+import java.util.List;
 
+public class Photo implements Parcelable {
+    private static List<String> listOfPicURLs = new ArrayList<>();
     private String mUrl;
     private String mTitle;
+
+    public Photo(String url) {
+        mUrl = url;
+    }
 
     public Photo(String url, String title) {
         mUrl = url;
@@ -46,17 +53,20 @@ public class Photo implements Parcelable {
         mTitle = title;
     }
 
-    public static  Photo[] getPhotos() {
-
-        return new Photo[]{
-                new Photo("http://i.imgur.com/zuG2bGQ.jpg", "Galaxy"),
-                new Photo("http://i.imgur.com/ovr0NAF.jpg", "Space Shuttle"),
-                new Photo("http://i.imgur.com/n6RfJX2.jpg", "Galaxy Orion"),
-                new Photo("http://i.imgur.com/qpr5LR2.jpg", "Earth"),
-                new Photo("http://i.imgur.com/pSHXfu5.jpg", "Astronaut"),
-                new Photo("http://i.imgur.com/3wQcZeY.jpg", "Satellite"),
-        };
+    public static void addToPhotos(String URL) {
+        listOfPicURLs.add(URL);
     }
+
+    public static Photo[] getPhotos() {
+
+        Photo[] photoArray = new Photo[listOfPicURLs.size()];
+        for (int i = 0; i < photoArray.length; i++) {
+            photoArray[i] = new Photo(listOfPicURLs.get(i));
+        }
+
+        return photoArray;
+    }
+
 
     @Override
     public int describeContents() {
