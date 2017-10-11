@@ -1,5 +1,6 @@
 package com.codecool.arinyu.myfirstandroidapp.take_picture;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -9,7 +10,9 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
+import com.codecool.arinyu.myfirstandroidapp.MainActivity;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -18,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TakingPicture extends AppCompatActivity {
+    public static Context context;
     private Uri uriFile;
     private String timeStamp;
     FireBaseConnection fireBaseConnection = new FireBaseConnection();
@@ -25,7 +29,7 @@ public class TakingPicture extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context = getBaseContext();
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         } else {
@@ -64,10 +68,8 @@ public class TakingPicture extends AppCompatActivity {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
                 Uri uriOnPhone = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + getFolderName() + File.separator + "IMG_" + timeStamp + ".jpeg"));
-                Logger.addLogAdapter(new AndroidLogAdapter());
                 fireBaseConnection.savePicture(uriOnPhone, timeStamp); //I tried to get the correct orientation but it didn't work
                 deleteRecursive(getThePath(getFolderName()));
-                Logger.i("IMAGE UPLOADED SUCCESSFULLY!");
                 finish();
             }
         }
