@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
+import com.codecool.arinyu.myfirstandroidapp.photo_gallery.GalleryActivity;
 import com.codecool.arinyu.myfirstandroidapp.take_picture.TakingPicture;
 
 
@@ -136,7 +137,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(takingPictureIntent);
 
         } else if (id == R.id.nav_gallery) {
-
+            Intent showGallery = new Intent(this, GalleryActivity.class);
+            startActivity(showGallery);
         }
 //        else if (id == R.id.nav_info) {
 //
