@@ -21,9 +21,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.codecool.arinyu.myfirstandroidapp.businesslogic.Calculator;
+import com.codecool.arinyu.myfirstandroidapp.calculator.Calculator;
 import com.codecool.arinyu.myfirstandroidapp.photo_gallery.GalleryActivity;
-import com.codecool.arinyu.myfirstandroidapp.take_picture.TakingPicture;
+import com.codecool.arinyu.myfirstandroidapp.take_picture.TakingPictureActivity;
 
 
 public class MainActivity extends AppCompatActivity
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity
 
         // Handle the camera action
         if (id == R.id.nav_camera) {
-            Intent takingPictureIntent = new Intent(this, TakingPicture.class);
+            Intent takingPictureIntent = new Intent(this, TakingPictureActivity.class);
             startActivity(takingPictureIntent);
 
         } else if (id == R.id.nav_gallery) {

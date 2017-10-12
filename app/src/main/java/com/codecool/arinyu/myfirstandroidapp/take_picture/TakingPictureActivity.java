@@ -1,5 +1,6 @@
 package com.codecool.arinyu.myfirstandroidapp.take_picture;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,7 +21,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TakingPicture extends AppCompatActivity {
+public class TakingPictureActivity extends AppCompatActivity {
     public static Context context;
     private Uri uriFile;
     private String timeStamp;
@@ -73,8 +74,6 @@ public class TakingPicture extends AppCompatActivity {
                 finish();
             }
         }
-
-        deleteRecursive(getThePath(getFolderName()));
     }
 
 

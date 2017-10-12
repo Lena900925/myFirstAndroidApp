@@ -1,10 +1,8 @@
-package com.codecool.arinyu.myfirstandroidapp.businesslogic;
+package com.codecool.arinyu.myfirstandroidapp.calculator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Set;
 
 public class Calculator {
     private static int rent;

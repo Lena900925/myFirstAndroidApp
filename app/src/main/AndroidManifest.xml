@@ -37,7 +37,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".photo_gallery.PhotoActivity" />
         <activity
-            android:name=".take_picture.TakingPicture"
+            android:name=".take_picture.TakingPictureActivity"
             android:label="@string/title_activity_taking_picture"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
