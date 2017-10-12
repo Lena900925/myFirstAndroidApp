@@ -44,7 +44,6 @@
             android:name=".photo_gallery.GalleryActivity"
             android:label="@string/title_activity_gallery"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".authentication.EmailPasswordActivity"></activity>
     </application>
 
 </manifest>
