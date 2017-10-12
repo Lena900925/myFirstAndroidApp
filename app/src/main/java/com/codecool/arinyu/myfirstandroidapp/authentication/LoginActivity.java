@@ -1,4 +1,4 @@
-package com.codecool.arinyu.myfirstandroidapp;
+package com.codecool.arinyu.myfirstandroidapp.authentication;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.codecool.arinyu.myfirstandroidapp.MainActivity;
+import com.codecool.arinyu.myfirstandroidapp.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         mUserName = (EditText) findViewById(R.id.txtUserName);
         mPasswordView = (EditText) findViewById(R.id.txtPassword);
 
-        final Button btnLogin = (Button) findViewById(R.id.btnLogin);
+        final Button btnLogin = (Button) findViewById(R.id.email_sign_in_button);
 
         mPasswordView.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override

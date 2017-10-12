@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codecool.arinyu.myfirstandroidapp.authentication.LoginActivity;
 import com.codecool.arinyu.myfirstandroidapp.calculator.Calculator;
 import com.codecool.arinyu.myfirstandroidapp.photo_gallery.GalleryActivity;
 import com.codecool.arinyu.myfirstandroidapp.take_picture.TakingPictureActivity;
