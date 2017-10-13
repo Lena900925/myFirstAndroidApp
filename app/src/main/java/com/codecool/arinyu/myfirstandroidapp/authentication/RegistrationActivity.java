@@ -39,8 +39,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_registration);
 
         mUsername = (EditText) findViewById(R.id.txtUserName);
-        mConfirmPasswordField = (EditText) findViewById(R.id.txtConfirmPassword);
         mPasswordField = (EditText) findViewById(R.id.txtPassword);
+        mConfirmPasswordField = (EditText) findViewById(R.id.txtConfirmPassword);
         mEmailField = (EditText) findViewById(R.id.txtEmailAddress);
 
         // [START initialize_auth]
@@ -49,9 +49,26 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         progressDialog = new ProgressDialog(this);
     }
     private void registerUser(){
+        String email = mEmailField.toString().trim();
+        String password = mPasswordField.toString().trim();
+        String confirmPassword = mConfirmPasswordField.toString().trim();
 
+        if(TextUtils.isEmpty(email)){
+            Toast.makeText(this,"Please enter your email address!",Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!mPasswordField.equals(mConfirmPasswordField)) {
+            Toast.makeText(this, "Passwords don't match! Please try again!", Toast.LENGTH_SHORT).show();
+        }
+        if(TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)){
+            Toast.makeText(this,"Please enter password!",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        progressDialog.setMessage("Registering, Please Wait...");
+        progressDialog.show();
         //creating a new user
-        mAuth.createUserWithEmailAndPassword("user email here", "user password here")
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -59,13 +76,20 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         //checking if success
                         if(task.isSuccessful()){
                             //display some message here
+                            Toast.makeText(RegistrationActivity.this,"Successfully registered!",Toast.LENGTH_LONG).show();
                         }else{
                             //display some message here
-                        }
+                            Toast.makeText(RegistrationActivity.this,"Registration failed!",Toast.LENGTH_LONG).show();
 
+                        }
+                        progressDialog.dismiss();
                     }
                 });
 
     }
-
+    @Override
+    public void onClick(View view) {
+        //calling register method on click
+        registerUser();
+    }
 }
