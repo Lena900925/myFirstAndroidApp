@@ -3,7 +3,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Email Address</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -41,4 +41,5 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="signUp">Sign Up</string>
     <string name="calculate">Calculate monthly rent</string>
+    <string name="menu_login">Login</string>
 </resources>
