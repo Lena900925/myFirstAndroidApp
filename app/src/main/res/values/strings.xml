@@ -40,4 +40,5 @@
     <string name="title_activity_gallery">GalleryActivity</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="signUp">Sign Up</string>
+    <string name="calculate">Calculate monthly rent</string>
 </resources>
