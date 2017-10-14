@@ -29,4 +29,20 @@
         android:layout_below="@id/appName"
         android:layout_marginTop="40dp"></include>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/newUserSignUP"/>
+    <Button
+        android:id="@+id/signupButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="350dp"
+        android:textStyle="italic"
+        android:textColor="#8BBF9F"
+        android:background="@android:color/transparent"
+        android:text="@string/signUp" />
+
 </RelativeLayout>

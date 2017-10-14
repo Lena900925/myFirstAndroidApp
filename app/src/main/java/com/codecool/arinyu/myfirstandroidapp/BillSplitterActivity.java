@@ -9,11 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import com.codecool.arinyu.myfirstandroidapp.authentication.LoginActivity;
-import com.codecool.arinyu.myfirstandroidapp.authentication.RegistrationActivity;
 import com.codecool.arinyu.myfirstandroidapp.calculator.CalculatorActivity;
 import com.codecool.arinyu.myfirstandroidapp.photo_gallery.GalleryActivity;
 import com.codecool.arinyu.myfirstandroidapp.take_picture.TakingPictureActivity;
@@ -24,23 +20,6 @@ public class BillSplitterActivity extends AppCompatActivity implements Navigatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Button loginButton = (Button) findViewById(R.id.loginButton);
-        Button signUpButton = (Button) findViewById(R.id.signupButton);
-
-        loginButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                Intent loginIntent = new Intent(BillSplitterActivity.this, LoginActivity.class);
-                startActivity(loginIntent);
-            }
-        });
-
-        signUpButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                Intent singUpIntent = new Intent(BillSplitterActivity.this, RegistrationActivity.class);
-                startActivity(singUpIntent);
-            }
-        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

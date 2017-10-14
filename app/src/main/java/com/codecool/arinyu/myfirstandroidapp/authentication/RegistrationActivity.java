@@ -1,6 +1,7 @@
 package com.codecool.arinyu.myfirstandroidapp.authentication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.codecool.arinyu.myfirstandroidapp.MainActivity;
 import com.codecool.arinyu.myfirstandroidapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,13 +58,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         String password = mPasswordField.getText().toString();
         String confirmPassword = mConfirmPasswordField.getText().toString();
 
-        if (TextUtils.isEmpty(userName) || userName.length() < 4) {
+        if (TextUtils.isEmpty(userName) || userName.length() < 3) {
             Toast.makeText(this, "Username must be at least 3 characters!", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(email) || !email.contains("@")) {
-            Toast.makeText(this, "Please enter your email address!", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -80,6 +77,16 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             return;
         }
 
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "Please enter your email address!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(!email.contains("@")) {
+            Toast.makeText(this, "Please enter a valid email address!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         progressDialog.setMessage("Registering, please Wait...");
         progressDialog.show();
         //creating a new user
@@ -92,9 +99,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         if (task.isSuccessful()) {
                             //display some message here
                             Toast.makeText(RegistrationActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
+                            Intent mainIntent = new Intent(RegistrationActivity.this, MainActivity.class);
+                            startActivity(mainIntent);
+
                         } else {
                             //display some message here
-                            Toast.makeText(RegistrationActivity.this, "Registration failed! " + "\n" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistrationActivity.this, "Registration failed!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrationActivity.this,  task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                         progressDialog.dismiss();
                     }
