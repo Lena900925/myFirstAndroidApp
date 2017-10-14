@@ -18,11 +18,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
-public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener{
+public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "EmailPassword";
 
@@ -48,24 +49,38 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
     }
-    private void registerUser(){
-        String email = mEmailField.toString().trim();
-        String password = mPasswordField.toString().trim();
-        String confirmPassword = mConfirmPasswordField.toString().trim();
 
-        if(TextUtils.isEmpty(email)){
-            Toast.makeText(this,"Please enter your email address!",Toast.LENGTH_LONG).show();
+    private void registerUser() {
+        String userName = mUsername.getText().toString();
+        String email = mEmailField.getText().toString();
+        String password = mPasswordField.getText().toString();
+        String confirmPassword = mConfirmPasswordField.getText().toString();
+
+        if (TextUtils.isEmpty(userName) || userName.length() < 4) {
+            Toast.makeText(this, "Username must be at least 3 characters!", Toast.LENGTH_LONG).show();
             return;
         }
-        if (!mPasswordField.equals(mConfirmPasswordField)) {
+
+        if (TextUtils.isEmpty(email) || !email.contains("@")) {
+            Toast.makeText(this, "Please enter your email address!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
             Toast.makeText(this, "Passwords don't match! Please try again!", Toast.LENGTH_SHORT).show();
+            return;
         }
-        if(TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)){
-            Toast.makeText(this,"Please enter password!",Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)) {
+            Toast.makeText(this, "Please enter password!", Toast.LENGTH_LONG).show();
             return;
         }
 
-        progressDialog.setMessage("Registering, Please Wait...");
+        if (password.length() < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        progressDialog.setMessage("Registering, please Wait...");
         progressDialog.show();
         //creating a new user
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -74,19 +89,19 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         //checking if success
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             //display some message here
-                            Toast.makeText(RegistrationActivity.this,"Successfully registered!",Toast.LENGTH_LONG).show();
-                        }else{
+                            Toast.makeText(RegistrationActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
+                        } else {
                             //display some message here
-                            Toast.makeText(RegistrationActivity.this,"Registration failed!",Toast.LENGTH_LONG).show();
-
+                            Toast.makeText(RegistrationActivity.this, "Registration failed! " + "\n" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                         progressDialog.dismiss();
                     }
                 });
 
     }
+
     @Override
     public void onClick(View view) {
         //calling register method on click
