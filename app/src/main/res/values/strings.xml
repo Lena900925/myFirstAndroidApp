@@ -46,5 +46,5 @@
     <string name="title_activity_bills_plitter">BillSplitterActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="newUserSignUP">New User?</string>
+    <string name="noAccount">Don\'t have an account?</string>
 </resources>
