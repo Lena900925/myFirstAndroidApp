@@ -66,12 +66,10 @@
         android:id="@+id/forgotPW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="160dp"
         android:textColor="#d3d3d3"
         android:text="@string/forgotPassword"
         android:background="@android:color/transparent"
-        />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="330dp" />
 
 </RelativeLayout>
