@@ -29,7 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appName"
-        android:layout_marginTop="40dp"></include>
+        android:layout_marginTop="40dp"
+        android:id="@+id/include"></include>
 
     <Button
         android:id="@+id/signupButton"
@@ -58,6 +59,19 @@
         android:layout_alignStart="@+id/appName"
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:id="@+id/textView2" />
+
+    <Button
+        android:id="@+id/forgotPW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="160dp"
+        android:textColor="#d3d3d3"
+        android:text="@string/forgotPassword"
+        android:background="@android:color/transparent"
+        />
 
 </RelativeLayout>

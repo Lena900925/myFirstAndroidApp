@@ -36,15 +36,14 @@
     <string name="facebook_app_id">249280585594134</string>
     <string name="takePicture">Take a photo</string>
     <string name="takePictureOnMenu">Take a photo of the bill</string>
-    <string name="title_activity_taking_picture">TakingPictureActivity</string>
-    <string name="title_activity_gallery">GalleryActivity</string>
+    <string name="title_activity_taking_picture">Camera</string>
+    <string name="title_activity_gallery">the Gallery</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="signUp">Sign Up</string>
     <string name="calculate">Calculate monthly rent</string>
     <string name="menu_login">Login</string>
+    <string name="signUp">Sign Up</string>
+    <string name="forgotPassword">Forgot your password?</string>
 
-    <string name="title_activity_bills_plitter">BillSplitterActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_bill_splitter">the Bill Splitter app</string>
     <string name="noAccount">Don\'t have an account?</string>
 </resources>
