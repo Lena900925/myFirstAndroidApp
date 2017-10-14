@@ -42,4 +42,9 @@
     <string name="signUp">Sign Up</string>
     <string name="calculate">Calculate monthly rent</string>
     <string name="menu_login">Login</string>
+
+    <string name="title_activity_bills_plitter">BillSplitterActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="newUserSignUP">New User?</string>
 </resources>

@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".authentication.LoginActivity" />
+        <activity android:name=".authentication.RegistrationActivity" />
         <activity android:name=".calculator.CalculatorActivity" />
         <activity android:name=".photo_gallery.PhotoActivity" />
         <activity
@@ -45,6 +46,12 @@
             android:name=".photo_gallery.GalleryActivity"
             android:label="@string/title_activity_gallery"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BillSplitterActivity"
+            android:label="@string/title_activity_bills_plitter"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>
