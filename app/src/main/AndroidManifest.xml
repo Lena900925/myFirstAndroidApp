@@ -34,7 +34,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".registration.RegistrationActivity" />
+        <activity android:name=".calculator.CalculatorActivity" />
         <activity android:name=".photo_gallery.PhotoActivity" />
         <activity
             android:name=".take_picture.TakingPictureActivity"
@@ -43,7 +44,13 @@
         <activity
             android:name=".photo_gallery.GalleryActivity"
             android:label="@string/title_activity_gallery"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BillSplitterActivity"
+            android:label="@string/title_activity_bills_plitter"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

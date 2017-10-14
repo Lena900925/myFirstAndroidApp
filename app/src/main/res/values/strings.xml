@@ -3,7 +3,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Email Address</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -38,4 +38,13 @@
     <string name="takePictureOnMenu">Take a photo of the bill</string>
     <string name="title_activity_taking_picture">TakingPictureActivity</string>
     <string name="title_activity_gallery">GalleryActivity</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="signUp">Sign Up</string>
+    <string name="calculate">Calculate monthly rent</string>
+    <string name="menu_login">Login</string>
+
+    <string name="title_activity_bills_plitter">BillSplitterActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="newUserSignUP">New User?</string>
 </resources>
