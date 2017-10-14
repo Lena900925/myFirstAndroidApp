@@ -23,6 +23,12 @@
     <string name="action_settings">Settings</string>
     <string name="Lena">Lena</string>
     <string name="welcome_page">the Bill Splitter App</string>
+    <string name="welcome_message">Welcome to my app!</string>
+    <string name="welcome_howItWorks">How it works?</string>
+    <string name="welcome_discription">Just open the menu on the left top and choose one of the features. It can make calculations of the monthly rent, you can take photos of the bills,
+        save them on the cloud and also sending it per email!
+        In the Settings you can manage data and also sharing all information per Facebook messenger;)
+        \n\n I hope you will enjoy it! \n\nLena</string>
     <string name="how_much">How much is the monthly rent?</string>
     <string name="let_me_know">Let me know</string>
     <string name="button_calculate">Calculate</string>
