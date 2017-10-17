@@ -20,9 +20,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:fontFamily="casual"
+        android:fontFamily="cursive"
         android:text="@string/welcome_page"
-        android:textSize="35sp"
+        android:textSize="43sp"
         android:textStyle="bold" />
 
     <include
