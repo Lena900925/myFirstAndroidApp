@@ -1,11 +1,11 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pinklady_bg"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
 
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -29,20 +29,32 @@
         android:id="@+id/include"
         layout="@layout/activity_login"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/appName"
         android:layout_marginTop="40dp"></include>
+
     <Button
         android:id="@+id/loginButton"
         style="?android:textAppearanceSmall"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="62dp"
+        android:background="@drawable/rounded_green_button"
         android:text="@string/button_login"
         android:textStyle="bold"
-        android:background = "@drawable/rounded_green_button"
-        android:layout_alignBottom="@+id/forgotPW"
+        android:layout_below="@+id/include"
         android:layout_centerHorizontal="true" />
+
+
+    <Button
+        android:id="@+id/forgotPW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="@string/forgotPassword"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/loginButton"
+        android:layout_centerHorizontal="true"
+         />
 
     <TextView
         android:id="@+id/dontHaveAccount"
@@ -73,15 +85,5 @@
         android:text="@string/signUp"
         android:textColor="#8BBF9F"
         android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/forgotPW"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="335dp"
-        android:background="@android:color/transparent"
-        android:text="@string/forgotPassword"
-        android:textColor="#ffffff" />
 
 </RelativeLayout>
