@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.codecool.arinyu.myfirstandroidapp.calculator.CalculatorActivity;
 import com.codecool.arinyu.myfirstandroidapp.photo_gallery.GalleryActivity;
 import com.codecool.arinyu.myfirstandroidapp.take_picture.TakingPictureActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class BillSplitterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -67,11 +68,13 @@ public class BillSplitterActivity extends AppCompatActivity implements Navigatio
             Intent showGallery = new Intent(BillSplitterActivity.this, GalleryActivity.class);
             startActivity(showGallery);
         }
-//        else if (id == R.id.nav_manage) {
+//        else if (id == R.id.nav_settings) {
 //
 //        } else if (id == R.id.nav_send) {
 //
-//        }
+         else if (id == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();
+    }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -27,14 +27,18 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/welcome_page"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".registration.RegistrationActivity" />
+        <activity
+            android:name=".registration.RegistrationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".calculator.CalculatorActivity" />
         <activity android:name=".photo_gallery.PhotoActivity" />
         <activity
