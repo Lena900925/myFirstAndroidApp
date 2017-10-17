@@ -28,7 +28,7 @@
             android:name=".MainActivity"
             android:label="@string/welcome_page"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible|adjustPan">
+            android:windowSoftInputMode="stateUnchanged|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
