@@ -67,9 +67,7 @@ public class BillSplitterActivity extends AppCompatActivity implements Navigatio
             Intent showGallery = new Intent(BillSplitterActivity.this, GalleryActivity.class);
             startActivity(showGallery);
         }
-//        else if (id == R.id.nav_info) {
-//
-//        } else if (id == R.id.nav_manage) {
+//        else if (id == R.id.nav_manage) {
 //
 //        } else if (id == R.id.nav_send) {
 //

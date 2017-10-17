@@ -15,10 +15,6 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_galery" />
         <item
-            android:id="@+id/nav_info"
-            android:icon="@drawable/ic_menu_info"
-            android:title="@string/menu_about_the_calculation" />
-        <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/menu_settings" />
