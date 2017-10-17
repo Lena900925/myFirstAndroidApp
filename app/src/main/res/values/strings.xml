@@ -23,6 +23,12 @@
     <string name="action_settings">Settings</string>
     <string name="Lena">Lena</string>
     <string name="welcome_page">the Bill Splitter App</string>
+    <string name="welcome_message">Welcome to my app!</string>
+    <string name="welcome_howItWorks">How it works?</string>
+    <string name="welcome_discription">Just open the menu on the left top and choose one of the features. It can make calculations of the monthly rent, you can take photos of the bills,
+        save them on the cloud and also sending it per email!
+        In the Settings you can manage data and also sharing all information per Facebook messenger;)
+        \n\n I hope you will enjoy it! \n\nLena</string>
     <string name="how_much">How much is the monthly rent?</string>
     <string name="let_me_know">Let me know</string>
     <string name="button_calculate">Calculate</string>
@@ -36,15 +42,14 @@
     <string name="facebook_app_id">249280585594134</string>
     <string name="takePicture">Take a photo</string>
     <string name="takePictureOnMenu">Take a photo of the bill</string>
-    <string name="title_activity_taking_picture">TakingPictureActivity</string>
-    <string name="title_activity_gallery">GalleryActivity</string>
+    <string name="title_activity_taking_picture">Camera</string>
+    <string name="title_activity_gallery">the Gallery</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="signUp">Sign Up</string>
     <string name="calculate">Calculate monthly rent</string>
     <string name="menu_login">Login</string>
+    <string name="signUp">Sign Up</string>
+    <string name="forgotPassword">Forgot your password?</string>
 
-    <string name="title_activity_bills_plitter">BillSplitterActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="newUserSignUP">New User?</string>
+    <string name="title_activity_bill_splitter">the Bill Splitter app</string>
+    <string name="noAccount">Don\'t have an account?</string>
 </resources>

@@ -106,7 +106,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/signUp"
                 android:textStyle="bold"
-                android:background="@drawable/rounded_button"/>
+                android:background="@drawable/rounded_green_button"/>
 
         </LinearLayout>
     </ScrollView>
