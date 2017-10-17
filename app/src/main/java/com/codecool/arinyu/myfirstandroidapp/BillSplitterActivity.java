@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.codecool.arinyu.myfirstandroidapp.calculator.CalculatorActivity;
 import com.codecool.arinyu.myfirstandroidapp.photo_gallery.GalleryActivity;
@@ -16,6 +17,7 @@ import com.codecool.arinyu.myfirstandroidapp.take_picture.TakingPictureActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class BillSplitterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    long back_pressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +36,6 @@ public class BillSplitterActivity extends AppCompatActivity implements Navigatio
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -72,12 +64,32 @@ public class BillSplitterActivity extends AppCompatActivity implements Navigatio
 //
 //        } else if (id == R.id.nav_send) {
 //
-         else if (id == R.id.nav_logout) {
+        else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
-    }
+            Intent mainIntent = new Intent(this, MainActivity.class);
+            startActivity(mainIntent);
+            Toast.makeText(getBaseContext(),
+                    "You logged out successfully :)", Toast.LENGTH_SHORT)
+                    .show();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (back_pressed + 1000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+        } else {
+            Toast.makeText(getBaseContext(),
+                    "Press back again to logout :)", Toast.LENGTH_SHORT)
+                    .show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
 }

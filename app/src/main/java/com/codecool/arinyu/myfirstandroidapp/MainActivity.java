@@ -21,6 +21,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+// Here you can login
+
 public class MainActivity extends AppCompatActivity {
     private EditText mPassword, mEmailAddress;
     private FirebaseAuth mAuth;
@@ -54,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
                 String email = mEmailAddress.getText().toString();
                 String password = mPassword.getText().toString();
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enter email address!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -100,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent mainIntent = new Intent(this, MainActivity.class);
-        startActivity(mainIntent);
         super.onBackPressed();
     }
 }
