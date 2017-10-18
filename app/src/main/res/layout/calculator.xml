@@ -2,10 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFD6D6"
+    android:background="@drawable/calculator_flower_bg"
+    android:alpha="0.7"
     tools:context=".calculator.CalculatorActivity">
 
     <TextView
@@ -17,6 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="32dp"
         android:text="@string/how_much"
+        android:textColor="#181818"
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -36,6 +39,8 @@
             android:layout_width="220dp"
             android:layout_height="64dp"
             android:hint="@string/let_me_know"
+            android:textColorHint="#262626"
+            android:textColor="#000000"
             android:inputType="number"
             android:maxLines="1"
             android:imeOptions="actionDone"

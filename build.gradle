@@ -2,8 +2,7 @@
 
 buildscript {
     repositories {
-        jcenter() //maybe we need only mavenCentral()
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'

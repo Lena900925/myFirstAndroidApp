@@ -2,6 +2,7 @@ package com.codecool.arinyu.myfirstandroidapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class BillSplitterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     long back_pressed;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,16 +82,26 @@ public class BillSplitterActivity extends AppCompatActivity implements Navigatio
 
     @Override
     public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (back_pressed + 1000 > System.currentTimeMillis()) {
-            super.onBackPressed();
         } else {
-            Toast.makeText(getBaseContext(),
-                    "Press back again to logout :)", Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
         }
-        back_pressed = System.currentTimeMillis();
+
+        this.doubleBackToExitPressedOnce = true;
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
+
 }

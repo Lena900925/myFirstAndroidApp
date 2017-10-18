@@ -5,6 +5,8 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gallery_flower_bg"
+    android:alpha="0.8"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.RecyclerView
