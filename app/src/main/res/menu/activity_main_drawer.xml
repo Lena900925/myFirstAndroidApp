@@ -24,8 +24,12 @@
         <menu>
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
+                android:icon="@drawable/ic_messenger_icon_gray"
+                android:title="@string/menu_share" />
+            <item
+                android:id="@+id/nav_send_email"
+                android:icon="@drawable/email_icon"
+                android:title="@string/send_email" />
         </menu>
     </item>
 

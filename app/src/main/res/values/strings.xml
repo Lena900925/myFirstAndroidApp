@@ -53,4 +53,5 @@
     <string name="title_activity_bill_splitter">the Bill Splitter app</string>
     <string name="noAccount">Don\'t have an account?</string>
     <string name="button_logout">Logout</string>
+    <string name="send_email">Send an email</string>
 </resources>
