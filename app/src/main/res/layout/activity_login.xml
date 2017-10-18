@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alpha="0.6"
-            android:background="#DFDFE0"
+            android:background="@drawable/rounded_grey_box_background"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -43,6 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
+                    android:textColorHint="#262626"
                     android:inputType="textEmailAddress"
                     android:maxLines="1" />
 
@@ -58,6 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
+                    android:textColorHint="#ffffff"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionDone"

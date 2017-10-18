@@ -39,6 +39,8 @@
             android:layout_width="220dp"
             android:layout_height="64dp"
             android:hint="@string/let_me_know"
+            android:alpha="0.6"
+            android:background="@drawable/rounded_grey_box_background"
             android:textColorHint="#262626"
             android:textColor="#000000"
             android:inputType="number"
