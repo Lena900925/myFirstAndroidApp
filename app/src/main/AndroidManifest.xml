@@ -39,16 +39,18 @@
             android:name=".registration.RegistrationActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustPan" />
+
         <activity android:name=".calculator.CalculatorActivity" />
-        <activity android:name=".photo_gallery.PhotoActivity" />
+
+        <activity android:name=".photo_gallery.PhotoActivity"
+            />
         <activity
             android:name=".take_picture.TakingPictureActivity"
             android:label="@string/title_activity_taking_picture"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photo_gallery.GalleryActivity"
-            android:label="@string/title_activity_gallery"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_gallery"/>
         <activity
             android:name=".BillSplitterActivity"
             android:label=""
