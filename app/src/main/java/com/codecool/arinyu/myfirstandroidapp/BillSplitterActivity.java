@@ -88,6 +88,7 @@ public class BillSplitterActivity extends AppCompatActivity implements Navigatio
 
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
+            finish();
             Intent mainIntent = new Intent(this, MainActivity.class);
             startActivity(mainIntent);
             Toast.makeText(getBaseContext(),

@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codecool.arinyu.myfirstandroidapp.MainActivity;
@@ -37,6 +40,17 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         mPasswordField = (EditText) findViewById(R.id.txtPassword);
         mConfirmPasswordField = (EditText) findViewById(R.id.txtConfirmPassword);
         mEmailField = (EditText) findViewById(R.id.txtEmailAddress);
+
+        mEmailField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    registerUser();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
@@ -74,7 +88,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             return;
         }
 
-        if(!email.contains("@")) {
+        if (!email.contains("@")) {
             Toast.makeText(this, "Please enter a valid email address!", Toast.LENGTH_LONG).show();
             return;
         }
@@ -93,11 +107,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             Toast.makeText(RegistrationActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
                             Intent mainIntent = new Intent(RegistrationActivity.this, MainActivity.class);
                             startActivity(mainIntent);
+                            finish();
 
                         } else {
                             //display some message here
                             Toast.makeText(RegistrationActivity.this, "Registration failed!", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(RegistrationActivity.this,  task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                         progressDialog.dismiss();
                     }
