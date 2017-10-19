@@ -21,6 +21,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import static com.codecool.arinyu.myfirstandroidapp.photo_gallery.Photo.addToPhotos;
+
 // Here you can login
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
-
+        setPictures();
+        
         mAuth = FirebaseAuth.getInstance();
         mEmailAddress = (EditText) findViewById(R.id.txtEmailAddress);
         mPassword = (EditText) findViewById(R.id.txtPassword);
@@ -103,5 +106,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    public static void setPictures() {
+        addToPhotos("https://firebasestorage.googleapis.com/v0/b/the-bill-splitter-app.appspot.com/o/bill3.jpg?alt=media&token=1e147c2d-e751-4595-86d8-9cb9f17e5e21");
+        addToPhotos("https://firebasestorage.googleapis.com/v0/b/the-bill-splitter-app.appspot.com/o/bill1.jpg?alt=media&token=3ee40d45-9c87-43c3-abd9-7f72d201e51b");
+        addToPhotos("https://firebasestorage.googleapis.com/v0/b/the-bill-splitter-app.appspot.com/o/bill7.jpeg?alt=media&token=47e0992e-e460-4d2a-aa88-f77aa73bf935");
+        addToPhotos("https://firebasestorage.googleapis.com/v0/b/the-bill-splitter-app.appspot.com/o/bill2.jpg?alt=media&token=29a9363e-62ff-4573-8a84-81741904a900");
     }
 }
