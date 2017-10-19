@@ -1,12 +1,10 @@
 package com.codecool.arinyu.myfirstandroidapp.photo_gallery;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,11 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.codecool.arinyu.myfirstandroidapp.BillSplitterActivity;
-import com.codecool.arinyu.myfirstandroidapp.MainActivity;
 import com.codecool.arinyu.myfirstandroidapp.R;
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.Logger;
 
 public class PhotoActivity extends AppCompatActivity {
 
@@ -65,8 +59,5 @@ public class PhotoActivity extends AppCompatActivity {
                 })
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mImageView);
-    }
-    public void onGoBackClicked(View view) {
-        onBackPressed();
     }
 }

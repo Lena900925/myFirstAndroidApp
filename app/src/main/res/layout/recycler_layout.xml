@@ -24,7 +24,6 @@
             android:background="@android:color/transparent"
             android:drawableLeft="@drawable/go_back_button"
             android:drawableStart="@drawable/go_back_button"
-            android:onClick="onGoBackClicked"
             android:text="@string/btn_go_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />

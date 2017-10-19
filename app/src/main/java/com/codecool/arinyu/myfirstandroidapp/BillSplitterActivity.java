@@ -63,7 +63,7 @@ public class BillSplitterActivity extends AppCompatActivity implements Navigatio
             startActivity(showGallery);
         }
 //        else if (id == R.id.nav_settings) {
-//
+
         else if (id == R.id.nav_send_messenger){
 
             Intent messengerIntent = new Intent(Intent.ACTION_SEND);
