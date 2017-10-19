@@ -9,10 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codecool.arinyu.myfirstandroidapp.R;
+import com.codecool.arinyu.myfirstandroidapp.calculator.Calculator;
+import com.codecool.arinyu.myfirstandroidapp.calculator.CalculatorActivity;
 
 public class GalleryActivity extends AppCompatActivity {
 
@@ -92,5 +96,6 @@ public class GalleryActivity extends AppCompatActivity {
             mPhotos = Photos;
         }
     }
+
 
 }

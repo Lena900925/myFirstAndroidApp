@@ -23,7 +23,7 @@
     <item android:title="@string/menu_communicate">
         <menu>
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_send_messenger"
                 android:icon="@drawable/ic_messenger_icon_gray"
                 android:title="@string/menu_share" />
             <item

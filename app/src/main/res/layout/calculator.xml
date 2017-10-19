@@ -75,10 +75,11 @@
         android:text="@string/btn_go_back"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/go_back_button"
+        android:drawableStart="@drawable/go_back_button"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="32dp"
         android:layout_marginRight="24dp"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="16dp" />
 
 </android.support.constraint.ConstraintLayout>
