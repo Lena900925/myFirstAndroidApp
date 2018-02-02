@@ -14,10 +14,10 @@ public class Calculator {
 
     private static void setFixValues() {
         rent = 180000;
-        fixValues.put("Tom", 45000);
+        fixValues.put("Ádám", 45000);
         fixValues.put("Lena", 45000);
-        fixValues.put("Matyi", 60000);
-        fixValues.put("Tomi", 30000);
+        fixValues.put("Tom", 55000);
+        fixValues.put("Alíz", 35000);
     }
 
     public String calculateResults(double billToBePaid) {
