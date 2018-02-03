@@ -18,7 +18,12 @@ allprojects {
         google()
     }
 }
-
+ext{
+    //dependencies
+    recyclerViewVersion = '27.0.2' //compile 'com.android.support:recyclerview-v7:25.3.1'
+    appCompatVersion = '27.0.2'
+    designVersion = '27.0.2'
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

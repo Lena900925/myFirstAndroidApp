@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.codecool.arinyu.myfirstandroidapp.registration.RegistrationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         setPictures();
-        
         mAuth = FirebaseAuth.getInstance();
         mEmailAddress = (EditText) findViewById(R.id.txtEmailAddress);
         mPassword = (EditText) findViewById(R.id.txtPassword);
