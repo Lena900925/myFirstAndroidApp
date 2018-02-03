@@ -28,8 +28,6 @@ public class PhotoActivity extends AppCompatActivity {
         mImageView = (ImageView) findViewById(R.id.image);
         Photo Photo = getIntent().getParcelableExtra(EXTRA_SPACE_PHOTO);
 
-        Button btnGoBack = (Button) findViewById(R.id.btnGoBack);
-
         Glide.with(this)
                 .load(Photo.getUrl())
                 .asBitmap()
