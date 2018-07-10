@@ -15,10 +15,15 @@ import android.widget.Toast;
 
 import com.codecool.arinyu.myfirstandroidapp.MainActivity;
 import com.codecool.arinyu.myfirstandroidapp.R;
+import com.codecool.arinyu.myfirstandroidapp.firebase_database.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseUser;
+
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,6 +35,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private EditText mEmailField;
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +60,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
     }
 
     private void registerUser() {
-        String userName = mUsername.getText().toString();
+        final String userName = mUsername.getText().toString();
         String email = mEmailField.getText().toString();
         String password = mPasswordField.getText().toString();
         String confirmPassword = mConfirmPasswordField.getText().toString();
@@ -100,9 +108,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
                         //checking if success
                         if (task.isSuccessful()) {
+                            createNewUser(task.getResult().getUser(), userName);
                             //display some message here
                             Toast.makeText(RegistrationActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
                             Intent mainIntent = new Intent(RegistrationActivity.this, MainActivity.class);
@@ -122,7 +130,16 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        //calling register method on click
         registerUser();
     }
+
+    private void createNewUser(FirebaseUser user, String username) {
+        writeNewUser(user.getUid(), username, user.getEmail());
+    }
+
+    private void writeNewUser(String uid, String username, String email) {
+        User user = new User(username, email);
+        databaseReference.child("users").child(uid).setValue(user);
+    }
+
 }

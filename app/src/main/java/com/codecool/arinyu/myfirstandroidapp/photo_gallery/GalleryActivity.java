@@ -39,8 +39,7 @@ public class GalleryActivity extends AppCompatActivity {
             LayoutInflater inflater = LayoutInflater.from(context);
             //Inflate the layout
             View photoView = inflater.inflate(R.layout.recycler_imageview, parent, false);
-            ImageGalleryAdapter.MyViewHolder viewHolder = new ImageGalleryAdapter.MyViewHolder(photoView);
-            return viewHolder;
+            return new MyViewHolder(photoView);
         }
 
         @Override
@@ -62,9 +61,9 @@ public class GalleryActivity extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            public ImageView mPhotoImageView;
+            ImageView mPhotoImageView;
 
-            public MyViewHolder(View itemView) {
+            MyViewHolder(View itemView) {
 
                 super(itemView);
                 mPhotoImageView = (ImageView) itemView.findViewById(R.id.iv_photo);

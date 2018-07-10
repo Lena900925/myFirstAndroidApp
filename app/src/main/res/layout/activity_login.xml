@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
                     android:textColorHint="#ffffff"
-                    android:imeActionId="@+id/login"
+                    android:imeActionId="2"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
@@ -70,4 +70,9 @@
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
     </ScrollView>
+    <Button
+        android:id="@+id/cheat_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cheat button" />
 </LinearLayout>

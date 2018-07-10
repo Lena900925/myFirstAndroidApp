@@ -57,6 +57,10 @@ public class Photo implements Parcelable {
         listOfPicURLs.add(URL);
     }
 
+    public static void addBytesToPhotos (byte[] bytes) {
+
+    }
+
     public static Photo[] getPhotos() {
 
         Photo[] photoArray = new Photo[listOfPicURLs.size()];
@@ -66,7 +70,6 @@ public class Photo implements Parcelable {
 
         return photoArray;
     }
-
 
     @Override
     public int describeContents() {
